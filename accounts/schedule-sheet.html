@@ -29,17 +29,16 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        // Window scope methods for easy access in regular script
         window.fbAuth = auth;
         window.fbDb = db;
-        window.fbModular = {
-            signInWithEmailAndPassword,
-            createUserWithEmailAndPassword,
-            signOut,
-            doc,
-            setDoc,
-            getDoc,
-            serverTimestamp
-        };
+        window.fbSignIn = signInWithEmailAndPassword;
+        window.fbSignUp = createUserWithEmailAndPassword;
+        window.fbSignOut = signOut;
+        window.fbDoc = doc;
+        window.fbSetDoc = setDoc;
+        window.fbGetDoc = getDoc;
+        window.fbServerTimestamp = serverTimestamp;
 
         // Auth state monitor
         onAuthStateChanged(auth, async (user) => {
@@ -123,7 +122,6 @@
                 margin: 12mm 15mm 15mm 15mm;
             }
 
-            /* Footer එක පේළියට දික්ව පවතින සේ සකසා ඇත */
             .print-footer-signature {
                 width: 100% !important;
                 white-space: nowrap !important;
@@ -249,7 +247,6 @@
                     </div>
                     <div class="flex items-center gap-2">
                         <span class="font-semibold font-sinhala">පරිශීලකයා:</span>
-                        <!-- Default empty ලෙස සකස් කර ඇත -->
                         <input type="text" id="doc-user" class="border border-slate-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-sky-500 outline-none w-full" placeholder="පරිශීලක නම ඇතුළත් කරන්න">
                     </div>
                 </div>
@@ -315,7 +312,7 @@
                     </div>
                 </div>
 
-                <!-- Single-Line Print Footer (Fixed for Single Line Alignment) -->
+                <!-- Single-Line Print Footer -->
                 <div class="print-footer-signature mt-8 text-center text-[11px] text-slate-400 tracking-wider">
                     Software Developed by Anushka Nawarathna
                 </div>
@@ -326,7 +323,6 @@
 
     <!-- Scripting for Table and Auth -->
     <script>
-        // Set default date to today
         document.getElementById('doc-date').valueAsDate = new Date();
 
         function addRow() {
@@ -407,37 +403,39 @@
             const errorBox = document.getElementById('auth-error');
             errorBox.classList.add('hidden');
 
-            const { auth, db, modular } = {
-                auth: window.fbAuth,
-                db: window.fbDb,
-                modular: window.fbModular
-            };
-
             try {
                 if (authMode === 'login') {
-                    await modular.signInWithEmailAndPassword(auth, email, password);
+                    await window.fbSignIn(window.fbAuth, email, password);
                 } else {
                     const fullName = document.getElementById('auth-name').value.trim();
-                    const cred = await modular.createUserWithEmailAndPassword(auth, email, password);
+                    const cred = await window.fbSignUp(window.fbAuth, email, password);
                     
                     const isAdmin = (email === 'cpcpid001@gmail.com');
-                    await modular.setDoc(modular.doc(db, "users", cred.user.uid), {
+                    await window.fbSetDoc(window.fbDoc(window.fbDb, "users", cred.user.uid), {
                         fullName: fullName || email,
                         email: email,
                         status: isAdmin ? 'approved' : 'pending',
-                        createdAt: modular.serverTimestamp()
+                        createdAt: window.fbServerTimestamp()
                     });
                 }
             } catch (err) {
                 console.error(err);
-                errorBox.textContent = err.message || "දෝෂයක් සිදුවිය. කරුණාකර නැවත උත්සාහ කරන්න.";
+                let message = err.message || "දෝෂයක් සිදුවිය. කරුණාකර නැවත උත්සාහ කරන්න.";
+                if (err.code === 'auth/email-already-in-use') {
+                    message = "මෙම ඊමේල් ලිපිනය දැනටමත් ලියාපදිංචි කර ඇත. කරුණාකර Sign In වන්න.";
+                } else if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+                    message = "ඊමේල් ලිපිනය හෝ මුරපදය වැරදිය.";
+                } else if (err.code === 'auth/weak-password') {
+                    message = "මුරපදය අවම වශයෙන් අකුරු 6ක් විය යුතුය.";
+                }
+                errorBox.textContent = message;
                 errorBox.classList.remove('hidden');
             }
         }
 
         async function handleSignOut() {
-            if (window.fbAuth && window.fbModular) {
-                await window.fbModular.signOut(window.fbAuth);
+            if (window.fbSignOut && window.fbAuth) {
+                await window.fbSignOut(window.fbAuth);
                 location.reload();
             }
         }
