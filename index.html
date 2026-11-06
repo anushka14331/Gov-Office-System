@@ -27,14 +27,14 @@
                 <p class="text-xs text-slate-500 mt-1">Gov Office System - Management Portal</p>
             </div>
 
-            <!-- Tab Buttons -->
+            <!-- Tab Buttons (Direct onclick triggers) -->
             <div class="flex border-b border-slate-200 mb-6">
-                <button id="tab-login" type="button" class="flex-1 py-2 text-sm font-semibold text-sky-800 border-b-2 border-sky-800 focus:outline-none transition">Sign In</button>
-                <button id="tab-signup" type="button" class="flex-1 py-2 text-sm font-semibold text-slate-400 border-b-2 border-transparent focus:outline-none transition">Sign Up (ඉල්ලීමක් යොමු කරන්න)</button>
+                <button id="tab-login" type="button" onclick="switchAuthTab('login')" class="flex-1 py-2 text-sm font-semibold text-sky-800 border-b-2 border-sky-800 focus:outline-none transition cursor-pointer">Sign In</button>
+                <button id="tab-signup" type="button" onclick="switchAuthTab('signup')" class="flex-1 py-2 text-sm font-semibold text-slate-400 border-b-2 border-transparent focus:outline-none transition cursor-pointer">Sign Up (ඉල්ලීමක් යොමු කරන්න)</button>
             </div>
 
             <!-- Auth Form -->
-            <form id="auth-form" class="space-y-4">
+            <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
                 
                 <!-- Sign Up Extended Fields -->
                 <div id="signup-fields" class="hidden space-y-4">
@@ -71,7 +71,7 @@
 
                 <div id="auth-error" class="hidden text-xs text-rose-600 bg-rose-50 p-2.5 rounded-lg border border-rose-200"></div>
 
-                <button type="submit" id="auth-submit-btn" class="w-full py-2.5 bg-sky-800 hover:bg-sky-900 text-white rounded-lg text-sm font-medium transition shadow-md flex items-center justify-center gap-2">
+                <button type="submit" id="auth-submit-btn" class="w-full py-2.5 bg-sky-800 hover:bg-sky-900 text-white rounded-lg text-sm font-medium transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
                     <span id="auth-btn-text">ඇතුළු වන්න</span>
                     <i class="fa-solid fa-arrow-right text-xs"></i>
                 </button>
@@ -90,13 +90,13 @@
                 ඔබගේ විස්තර පද්ධතියට ලැබී ඇත. ප්‍රධාන පරිපාලක (<strong>cpcpid001@gmail.com</strong>) විසින් ඔබගේ ඉල්ලීම අනුමත (Approve) කළ පසු ඔබ ලබාදුන් විද්‍යුත් තැපෑල සහ මුරපදය මඟින් පද්ධතියට පිවිසිය හැක.
             </p>
             <div class="mt-6 flex justify-center gap-3">
-                <button id="pending-signout-btn" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-lg transition">Sign Out</button>
-                <button onclick="location.reload()" class="px-4 py-2 bg-sky-800 hover:bg-sky-900 text-white text-xs font-medium rounded-lg transition">යළි පරීක්ෂා කරන්න</button>
+                <button type="button" onclick="handleSignOut()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-lg transition">Sign Out</button>
+                <button type="button" onclick="location.reload()" class="px-4 py-2 bg-sky-800 hover:bg-sky-900 text-white text-xs font-medium rounded-lg transition">යළි පරීක්ෂා කරන්න</button>
             </div>
         </div>
     </div>
 
-    <!-- Main Portal Content (Locked until verified login) -->
+    <!-- Main Portal Content -->
     <div id="main-portal" class="flex-1 flex flex-col blur-sm pointer-events-none transition-all duration-300">
         
         <!-- Header -->
@@ -114,7 +114,7 @@
 
                 <div class="flex items-center gap-3">
                     <span id="current-user-tag" class="text-xs text-cyan-100 bg-white/10 px-3 py-1 rounded-full border border-white/20 hidden sm:inline-block"></span>
-                    <button id="portal-signout-btn" class="px-3 py-1.5 bg-rose-600/80 hover:bg-rose-600 text-white rounded-lg text-xs font-medium transition flex items-center gap-1.5">
+                    <button type="button" onclick="handleSignOut()" class="px-3 py-1.5 bg-rose-600/80 hover:bg-rose-600 text-white rounded-lg text-xs font-medium transition flex items-center gap-1.5">
                         <i class="fa-solid fa-right-from-bracket"></i> Sign Out
                     </button>
                 </div>
@@ -132,7 +132,6 @@
                     <span id="pending-count" class="text-xs bg-amber-200 text-amber-900 font-bold px-2 py-0.5 rounded-full">0 Requests</span>
                 </div>
                 <div id="pending-users-list" class="space-y-2">
-                    <!-- Populated by JS -->
                     <p class="text-xs text-slate-500 italic">අනුමැතිය සඳහා නව ඉල්ලීම් කිසිවක් නැත.</p>
                 </div>
             </div>
@@ -156,7 +155,7 @@
                         <span class="text-[10px] font-bold text-sky-700 tracking-wider uppercase bg-sky-50 px-2 py-0.5 rounded-full border border-sky-200">Active</span>
                         <h3 class="text-xl font-bold font-sinhala text-slate-900 mt-3">ගිණුම් අංශය</h3>
                         <p class="text-xs text-slate-400 font-medium">Accounts Department</p>
-                        <p class="text-xs text-slate-600 mt-3 leading-relaxed">
+                        <p class="text-sm text-slate-600 mt-3 leading-relaxed">
                             ගෙවීම් වවුචර සටහන් (Schedule Sheets), වැය ශීර්ෂ සහ මූල්‍ය පරිපාලන මෙවලම්.
                         </p>
                         <div class="mt-4 pt-4 border-t border-slate-100">
@@ -185,7 +184,7 @@
                         <span class="text-[10px] font-bold text-slate-500 uppercase bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200">Coming Soon</span>
                         <h3 class="text-xl font-bold font-sinhala text-slate-900 mt-3">පරිපාලන අංශය</h3>
                         <p class="text-xs text-slate-400 font-medium">Administrative Department</p>
-                        <p class="text-xs text-slate-600 mt-3 leading-relaxed">
+                        <p class="text-sm text-slate-600 mt-3 leading-relaxed">
                             කාර්ය මණ්ඩල පැමිණීම්, නිවාඩු වාර්තා සහ සාමාන්‍ය පරිපාලන ලිපිලේඛන.
                         </p>
                     </div>
@@ -197,4 +196,232 @@
                 </div>
 
                 <!-- 3. Development Department -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col justify
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between overflow-hidden opacity-90">
+                    <div class="p-6">
+                        <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-700 text-xl border border-indigo-100 mb-4">
+                            <i class="fa-solid fa-compass-drafting"></i>
+                        </div>
+                        <span class="text-[10px] font-bold text-slate-500 uppercase bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200">Coming Soon</span>
+                        <h3 class="text-xl font-bold font-sinhala text-slate-900 mt-3">සංවර්ධන අංශය</h3>
+                        <p class="text-xs text-slate-400 font-medium">Development Department</p>
+                        <p class="text-sm text-slate-600 mt-3 leading-relaxed">
+                            ව්‍යාපෘති අධීක්ෂණය, ප්‍රගති වාර්තා සහ තාක්ෂණික ඇස්තමේන්තු කළමනාකරණය.
+                        </p>
+                    </div>
+                    <div class="p-4 bg-slate-50 border-t border-slate-100">
+                        <button disabled class="w-full py-2.5 bg-slate-200 text-slate-400 rounded-xl text-xs font-semibold cursor-not-allowed">
+                            ළඟදීම බලාපොරොත්තු වන්න
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
+            <p>රාජ්‍ය කාර්යාල කළමනාකරණ පද්ධතිය &copy; 2026</p>
+            <p class="text-[11px] text-slate-400 mt-1">Software Architecture & Development by Anushka Nawarathna</p>
+        </footer>
+    </div>
+
+    <!-- UI Tab Switcher (Immediate Vanilla JS) -->
+    <script>
+        let currentAuthMode = 'login';
+
+        function switchAuthTab(mode) {
+            currentAuthMode = mode;
+            const tabLogin = document.getElementById('tab-login');
+            const tabSignup = document.getElementById('tab-signup');
+            const signupFields = document.getElementById('signup-fields');
+            const confirmField = document.getElementById('confirm-password-field');
+            const btnText = document.getElementById('auth-btn-text');
+            const errorBox = document.getElementById('auth-error');
+
+            if (errorBox) errorBox.classList.add('hidden');
+
+            if (mode === 'login') {
+                tabLogin.className = "flex-1 py-2 text-sm font-semibold text-sky-800 border-b-2 border-sky-800 focus:outline-none transition cursor-pointer";
+                tabSignup.className = "flex-1 py-2 text-sm font-semibold text-slate-400 border-b-2 border-transparent focus:outline-none transition cursor-pointer";
+                signupFields.classList.add('hidden');
+                confirmField.classList.add('hidden');
+                btnText.textContent = "ඇතුළු වන්න";
+            } else {
+                tabSignup.className = "flex-1 py-2 text-sm font-semibold text-sky-800 border-b-2 border-sky-800 focus:outline-none transition cursor-pointer";
+                tabLogin.className = "flex-1 py-2 text-sm font-semibold text-slate-400 border-b-2 border-transparent focus:outline-none transition cursor-pointer";
+                signupFields.classList.remove('hidden');
+                confirmField.classList.remove('hidden');
+                btnText.textContent = "ඉල්ලීම යොමු කරන්න (Request Access)";
+            }
+        }
+    </script>
+
+    <!-- Firebase Integration Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            projectId: "anushka-gove-system",
+            authDomain: "anushka-gove-system.firebaseapp.com"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const ADMIN_EMAIL = 'cpcpid001@gmail.com';
+
+        const authModal = document.getElementById('auth-modal');
+        const pendingModal = document.getElementById('pending-modal');
+        const mainPortal = document.getElementById('main-portal');
+        const userTag = document.getElementById('current-user-tag');
+        const adminPanel = document.getElementById('admin-panel');
+        const pendingList = document.getElementById('pending-users-list');
+        const pendingCount = document.getElementById('pending-count');
+        const errorBox = document.getElementById('auth-error');
+
+        // Form Submission
+        window.handleAuthSubmit = async function(e) {
+            e.preventDefault();
+            errorBox.classList.add('hidden');
+
+            const email = document.getElementById('auth-email').value.trim();
+            const password = document.getElementById('auth-password').value;
+
+            try {
+                if (window.currentAuthMode === 'login') {
+                    await signInWithEmailAndPassword(auth, email, password);
+                } else {
+                    const fname = document.getElementById('reg-fname').value.trim();
+                    const lname = document.getElementById('reg-lname').value.trim();
+                    const phone = document.getElementById('reg-phone').value.trim();
+                    const confirmPass = document.getElementById('auth-confirm-password').value;
+
+                    if (!fname || !lname || !phone) {
+                        throw new Error("කරුණාකර First Name, Last Name සහ Phone Number සියල්ල සම්පූර්ණ කරන්න.");
+                    }
+                    if (password !== confirmPass) {
+                        throw new Error("මුරපද දෙක එකිනෙකට නොගැලපේ (Passwords do not match).");
+                    }
+
+                    const cred = await createUserWithEmailAndPassword(auth, email, password);
+                    const isAdmin = (email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
+
+                    await setDoc(doc(db, "users", cred.user.uid), {
+                        firstName: fname,
+                        lastName: lname,
+                        fullName: `${fname} ${lname}`,
+                        phone: phone,
+                        email: email,
+                        status: isAdmin ? 'approved' : 'pending',
+                        requestedAt: serverTimestamp()
+                    });
+                }
+            } catch (err) {
+                console.error(err);
+                let msg = err.message || "දෝෂයක් සිදුවිය.";
+                if (err.code === 'auth/email-already-in-use') {
+                    msg = "මෙම ඊමේල් ලිපිනය දැනටමත් පද්ධතියේ ලියාපදිංචි කර ඇත.";
+                } else if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+                    msg = "ඊමේල් ලිපිනය හෝ මුරපදය වැරදිය.";
+                } else if (err.code === 'auth/weak-password') {
+                    msg = "මුරපදය අවම වශයෙන් අකුරු 6ක් විය යුතුය.";
+                }
+                errorBox.textContent = msg;
+                errorBox.classList.remove('hidden');
+            }
+        };
+
+        // Sign Out
+        window.handleSignOut = async function() {
+            await signOut(auth);
+            location.reload();
+        };
+
+        // Fetch pending users for Super Admin
+        async function loadAdminRequests() {
+            try {
+                const q = query(collection(db, "users"), where("status", "==", "pending"));
+                const snap = await getDocs(q);
+                pendingCount.textContent = `${snap.size} Requests`;
+
+                if (snap.empty) {
+                    pendingList.innerHTML = `<p class="text-xs text-slate-500 italic py-2">අනුමැතිය සඳහා නව ඉල්ලීම් කිසිවක් නැත.</p>`;
+                    return;
+                }
+
+                pendingList.innerHTML = '';
+                snap.forEach(docSnap => {
+                    const u = docSnap.data();
+                    const row = document.createElement('div');
+                    row.className = "flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white rounded-xl border border-amber-200 gap-2 shadow-xs";
+                    row.innerHTML = `
+                        <div class="text-xs">
+                            <span class="font-bold text-slate-800">${u.firstName || ''} ${u.lastName || ''}</span> 
+                            <span class="text-slate-500">(${u.email})</span>
+                            <div class="text-[11px] text-slate-600 font-mono mt-0.5"><i class="fa-solid fa-phone text-[10px]"></i> ${u.phone || 'N/A'}</div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="approveUser('${docSnap.id}', this)" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold transition cursor-pointer">
+                                <i class="fa-solid fa-check"></i> Approve
+                            </button>
+                        </div>
+                    `;
+                    pendingList.appendChild(row);
+                });
+            } catch (err) {
+                console.error("Admin load error:", err);
+            }
+        }
+
+        window.approveUser = async function(uid, btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Approving...';
+            await updateDoc(doc(db, "users", uid), { status: 'approved' });
+            loadAdminRequests();
+        };
+
+        // Auth Monitor
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const isSuperAdmin = (user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
+
+                if (isSuperAdmin) {
+                    authModal.classList.add('hidden');
+                    pendingModal.classList.add('hidden');
+                    mainPortal.classList.remove('blur-sm', 'pointer-events-none');
+                    userTag.textContent = `${user.email} (Super Admin)`;
+                    adminPanel.classList.remove('hidden');
+                    loadAdminRequests();
+                    return;
+                }
+
+                try {
+                    const userSnap = await getDoc(doc(db, "users", user.uid));
+                    if (userSnap.exists() && userSnap.data().status === 'approved') {
+                        const data = userSnap.data();
+                        authModal.classList.add('hidden');
+                        pendingModal.classList.add('hidden');
+                        mainPortal.classList.remove('blur-sm', 'pointer-events-none');
+                        userTag.textContent = `${data.firstName || ''} ${data.lastName || ''} (${user.email})`;
+                        adminPanel.classList.add('hidden');
+                    } else {
+                        authModal.classList.add('hidden');
+                        pendingModal.classList.remove('hidden');
+                        mainPortal.classList.add('blur-sm', 'pointer-events-none');
+                    }
+                } catch (e) {
+                    console.error("User read error:", e);
+                    authModal.classList.add('hidden');
+                    pendingModal.classList.remove('hidden');
+                }
+            } else {
+                authModal.classList.remove('hidden');
+                pendingModal.classList.add('hidden');
+                mainPortal.classList.add('blur-sm', 'pointer-events-none');
+            }
+        });
+    </script>
+</body>
+</html>
