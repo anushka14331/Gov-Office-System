@@ -16,7 +16,7 @@
 </head>
 <body class="h-full flex flex-col min-h-screen text-slate-800">
 
-    <!-- Auth Modal (Login / Sign Up) -->
+    <!-- Auth Modal -->
     <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 sm:p-8 border border-slate-100 my-8">
             <div class="text-center mb-6">
@@ -27,16 +27,12 @@
                 <p class="text-xs text-slate-500 mt-1">Gov Office System - Management Portal</p>
             </div>
 
-            <!-- Tab Buttons (Direct onclick triggers) -->
             <div class="flex border-b border-slate-200 mb-6">
-                <button id="tab-login" type="button" onclick="switchAuthTab('login')" class="flex-1 py-2 text-sm font-semibold text-sky-800 border-b-2 border-sky-800 focus:outline-none transition cursor-pointer">Sign In</button>
-                <button id="tab-signup" type="button" onclick="switchAuthTab('signup')" class="flex-1 py-2 text-sm font-semibold text-slate-400 border-b-2 border-transparent focus:outline-none transition cursor-pointer">Sign Up (ඉල්ලීමක් යොමු කරන්න)</button>
+                <button id="tab-login" type="button" class="flex-1 py-2 text-sm font-semibold text-sky-800 border-b-2 border-sky-800 focus:outline-none transition cursor-pointer">Sign In</button>
+                <button id="tab-signup" type="button" class="flex-1 py-2 text-sm font-semibold text-slate-400 border-b-2 border-transparent focus:outline-none transition cursor-pointer">Sign Up (ඉල්ලීමක් යොමු කරන්න)</button>
             </div>
 
-            <!-- Auth Form -->
-            <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
-                
-                <!-- Sign Up Extended Fields -->
+            <form id="auth-form" class="space-y-4">
                 <div id="signup-fields" class="hidden space-y-4">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
@@ -90,8 +86,8 @@
                 ඔබගේ විස්තර පද්ධතියට ලැබී ඇත. ප්‍රධාන පරිපාලක (<strong>cpcpid001@gmail.com</strong>) විසින් ඔබගේ ඉල්ලීම අනුමත (Approve) කළ පසු ඔබ ලබාදුන් විද්‍යුත් තැපෑල සහ මුරපදය මඟින් පද්ධතියට පිවිසිය හැක.
             </p>
             <div class="mt-6 flex justify-center gap-3">
-                <button type="button" onclick="handleSignOut()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-lg transition">Sign Out</button>
-                <button type="button" onclick="location.reload()" class="px-4 py-2 bg-sky-800 hover:bg-sky-900 text-white text-xs font-medium rounded-lg transition">යළි පරීක්ෂා කරන්න</button>
+                <button type="button" id="pending-signout-btn" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-lg transition cursor-pointer">Sign Out</button>
+                <button type="button" onclick="location.reload()" class="px-4 py-2 bg-sky-800 hover:bg-sky-900 text-white text-xs font-medium rounded-lg transition cursor-pointer">යළි පරීක්ෂා කරන්න</button>
             </div>
         </div>
     </div>
@@ -99,7 +95,6 @@
     <!-- Main Portal Content -->
     <div id="main-portal" class="flex-1 flex flex-col blur-sm pointer-events-none transition-all duration-300">
         
-        <!-- Header -->
         <header class="bg-gradient-to-r from-sky-950 via-cyan-900 to-sky-900 text-white shadow-lg sticky top-0 z-40">
             <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
                 <div class="flex items-center space-x-3">
@@ -114,14 +109,14 @@
 
                 <div class="flex items-center gap-3">
                     <span id="current-user-tag" class="text-xs text-cyan-100 bg-white/10 px-3 py-1 rounded-full border border-white/20 hidden sm:inline-block"></span>
-                    <button type="button" onclick="handleSignOut()" class="px-3 py-1.5 bg-rose-600/80 hover:bg-rose-600 text-white rounded-lg text-xs font-medium transition flex items-center gap-1.5">
+                    <button type="button" id="portal-signout-btn" class="px-3 py-1.5 bg-rose-600/80 hover:bg-rose-600 text-white rounded-lg text-xs font-medium transition flex items-center gap-1.5 cursor-pointer">
                         <i class="fa-solid fa-right-from-bracket"></i> Sign Out
                     </button>
                 </div>
             </div>
         </header>
 
-        <!-- Admin Requests Panel (Visible ONLY to cpcpid001@gmail.com) -->
+        <!-- Admin Requests Panel -->
         <section id="admin-panel" class="hidden max-w-6xl w-full mx-auto px-4 pt-6">
             <div class="bg-amber-50 border border-amber-300 rounded-2xl p-5 shadow-sm">
                 <div class="flex items-center justify-between mb-4">
@@ -145,8 +140,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-                <!-- 1. Accounts Department -->
+                <!-- Accounts -->
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden">
                     <div class="p-6">
                         <div class="w-12 h-12 bg-sky-50 rounded-xl flex items-center justify-center text-sky-700 text-xl border border-sky-100 mb-4">
@@ -175,7 +169,7 @@
                     </div>
                 </div>
 
-                <!-- 2. Administrative Department -->
+                <!-- Admin -->
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between overflow-hidden opacity-90">
                     <div class="p-6">
                         <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-700 text-xl border border-emerald-100 mb-4">
@@ -195,7 +189,7 @@
                     </div>
                 </div>
 
-                <!-- 3. Development Department -->
+                <!-- Development -->
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between overflow-hidden opacity-90">
                     <div class="p-6">
                         <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-700 text-xl border border-indigo-100 mb-4">
@@ -214,7 +208,6 @@
                         </button>
                     </div>
                 </div>
-
             </div>
         </main>
 
@@ -224,38 +217,7 @@
         </footer>
     </div>
 
-    <!-- UI Tab Switcher (Immediate Vanilla JS) -->
-    <script>
-        let currentAuthMode = 'login';
-
-        function switchAuthTab(mode) {
-            currentAuthMode = mode;
-            const tabLogin = document.getElementById('tab-login');
-            const tabSignup = document.getElementById('tab-signup');
-            const signupFields = document.getElementById('signup-fields');
-            const confirmField = document.getElementById('confirm-password-field');
-            const btnText = document.getElementById('auth-btn-text');
-            const errorBox = document.getElementById('auth-error');
-
-            if (errorBox) errorBox.classList.add('hidden');
-
-            if (mode === 'login') {
-                tabLogin.className = "flex-1 py-2 text-sm font-semibold text-sky-800 border-b-2 border-sky-800 focus:outline-none transition cursor-pointer";
-                tabSignup.className = "flex-1 py-2 text-sm font-semibold text-slate-400 border-b-2 border-transparent focus:outline-none transition cursor-pointer";
-                signupFields.classList.add('hidden');
-                confirmField.classList.add('hidden');
-                btnText.textContent = "ඇතුළු වන්න";
-            } else {
-                tabSignup.className = "flex-1 py-2 text-sm font-semibold text-sky-800 border-b-2 border-sky-800 focus:outline-none transition cursor-pointer";
-                tabLogin.className = "flex-1 py-2 text-sm font-semibold text-slate-400 border-b-2 border-transparent focus:outline-none transition cursor-pointer";
-                signupFields.classList.remove('hidden');
-                confirmField.classList.remove('hidden');
-                btnText.textContent = "ඉල්ලීම යොමු කරන්න (Request Access)";
-            }
-        }
-    </script>
-
-    <!-- Firebase Integration Logic -->
+    <!-- Firebase Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -272,6 +234,15 @@
 
         const ADMIN_EMAIL = 'cpcpid001@gmail.com';
 
+        let currentAuthMode = 'login';
+        const tabLogin = document.getElementById('tab-login');
+        const tabSignup = document.getElementById('tab-signup');
+        const signupFields = document.getElementById('signup-fields');
+        const confirmField = document.getElementById('confirm-password-field');
+        const btnText = document.getElementById('auth-btn-text');
+        const errorBox = document.getElementById('auth-error');
+        const authForm = document.getElementById('auth-form');
+
         const authModal = document.getElementById('auth-modal');
         const pendingModal = document.getElementById('pending-modal');
         const mainPortal = document.getElementById('main-portal');
@@ -279,10 +250,28 @@
         const adminPanel = document.getElementById('admin-panel');
         const pendingList = document.getElementById('pending-users-list');
         const pendingCount = document.getElementById('pending-count');
-        const errorBox = document.getElementById('auth-error');
 
-        // Form Submission
-        window.handleAuthSubmit = async function(e) {
+        tabLogin.addEventListener('click', () => {
+            currentAuthMode = 'login';
+            tabLogin.className = "flex-1 py-2 text-sm font-semibold text-sky-800 border-b-2 border-sky-800 focus:outline-none transition cursor-pointer";
+            tabSignup.className = "flex-1 py-2 text-sm font-semibold text-slate-400 border-b-2 border-transparent focus:outline-none transition cursor-pointer";
+            signupFields.classList.add('hidden');
+            confirmField.classList.add('hidden');
+            btnText.textContent = "ඇතුළු වන්න";
+            errorBox.classList.add('hidden');
+        });
+
+        tabSignup.addEventListener('click', () => {
+            currentAuthMode = 'signup';
+            tabSignup.className = "flex-1 py-2 text-sm font-semibold text-sky-800 border-b-2 border-sky-800 focus:outline-none transition cursor-pointer";
+            tabLogin.className = "flex-1 py-2 text-sm font-semibold text-slate-400 border-b-2 border-transparent focus:outline-none transition cursor-pointer";
+            signupFields.classList.remove('hidden');
+            confirmField.classList.remove('hidden');
+            btnText.textContent = "ඉල්ලීම යොමු කරන්න (Request Access)";
+            errorBox.classList.add('hidden');
+        });
+
+        authForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             errorBox.classList.add('hidden');
 
@@ -290,7 +279,7 @@
             const password = document.getElementById('auth-password').value;
 
             try {
-                if (window.currentAuthMode === 'login') {
+                if (currentAuthMode === 'login') {
                     await signInWithEmailAndPassword(auth, email, password);
                 } else {
                     const fname = document.getElementById('reg-fname').value.trim();
@@ -299,10 +288,10 @@
                     const confirmPass = document.getElementById('auth-confirm-password').value;
 
                     if (!fname || !lname || !phone) {
-                        throw new Error("කරුණාකර First Name, Last Name සහ Phone Number සියල්ල සම්පූර්ණ කරන්න.");
+                        throw new Error("කරුණාකර සියලු විස්තර සම්පූර්ණ කරන්න.");
                     }
                     if (password !== confirmPass) {
-                        throw new Error("මුරපද දෙක එකිනෙකට නොගැලපේ (Passwords do not match).");
+                        throw new Error("මුරපද දෙක නොගැලපේ.");
                     }
 
                     const cred = await createUserWithEmailAndPassword(auth, email, password);
@@ -311,35 +300,35 @@
                     await setDoc(doc(db, "users", cred.user.uid), {
                         firstName: fname,
                         lastName: lname,
-                        fullName: `${fname} ${lname}`,
                         phone: phone,
                         email: email,
                         status: isAdmin ? 'approved' : 'pending',
-                        requestedAt: serverTimestamp()
+                        createdAt: serverTimestamp()
                     });
                 }
             } catch (err) {
                 console.error(err);
                 let msg = err.message || "දෝෂයක් සිදුවිය.";
-                if (err.code === 'auth/email-already-in-use') {
-                    msg = "මෙම ඊමේල් ලිපිනය දැනටමත් පද්ධතියේ ලියාපදිංචි කර ඇත.";
+                if (err.code === 'auth/operation-not-allowed') {
+                    msg = "Firebase Console හි Email/Password Provider සක්‍රීය කර නොමැත. කරුණාකර Sign-in Method පරීක්ෂා කරන්න.";
+                } else if (err.code === 'auth/email-already-in-use') {
+                    msg = "මෙම විද්‍යුත් තැපෑල දැනටමත් භාවිතයේ ඇත. කරුණාකර Sign In වන්න.";
                 } else if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
-                    msg = "ඊමේල් ලිපිනය හෝ මුරපදය වැරදිය.";
-                } else if (err.code === 'auth/weak-password') {
-                    msg = "මුරපදය අවම වශයෙන් අකුරු 6ක් විය යුතුය.";
+                    msg = "විද්‍යුත් තැපෑල හෝ මුරපදය වැරදිය.";
                 }
                 errorBox.textContent = msg;
                 errorBox.classList.remove('hidden');
             }
-        };
+        });
 
-        // Sign Out
-        window.handleSignOut = async function() {
+        const doSignOut = async () => {
             await signOut(auth);
             location.reload();
         };
 
-        // Fetch pending users for Super Admin
+        document.getElementById('portal-signout-btn').addEventListener('click', doSignOut);
+        document.getElementById('pending-signout-btn').addEventListener('click', doSignOut);
+
         async function loadAdminRequests() {
             try {
                 const q = query(collection(db, "users"), where("status", "==", "pending"));
@@ -355,34 +344,34 @@
                 snap.forEach(docSnap => {
                     const u = docSnap.data();
                     const row = document.createElement('div');
-                    row.className = "flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white rounded-xl border border-amber-200 gap-2 shadow-xs";
+                    row.className = "flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white rounded-xl border border-amber-200 gap-2";
                     row.innerHTML = `
                         <div class="text-xs">
                             <span class="font-bold text-slate-800">${u.firstName || ''} ${u.lastName || ''}</span> 
                             <span class="text-slate-500">(${u.email})</span>
                             <div class="text-[11px] text-slate-600 font-mono mt-0.5"><i class="fa-solid fa-phone text-[10px]"></i> ${u.phone || 'N/A'}</div>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="approveUser('${docSnap.id}', this)" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold transition cursor-pointer">
-                                <i class="fa-solid fa-check"></i> Approve
-                            </button>
-                        </div>
+                        <button data-uid="${docSnap.id}" class="approve-btn px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold transition cursor-pointer">
+                            <i class="fa-solid fa-check"></i> Approve
+                        </button>
                     `;
                     pendingList.appendChild(row);
+                });
+
+                document.querySelectorAll('.approve-btn').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const uid = btn.getAttribute('data-uid');
+                        btn.disabled = true;
+                        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Approving...';
+                        await updateDoc(doc(db, "users", uid), { status: 'approved' });
+                        loadAdminRequests();
+                    });
                 });
             } catch (err) {
                 console.error("Admin load error:", err);
             }
         }
 
-        window.approveUser = async function(uid, btn) {
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Approving...';
-            await updateDoc(doc(db, "users", uid), { status: 'approved' });
-            loadAdminRequests();
-        };
-
-        // Auth Monitor
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const isSuperAdmin = (user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
