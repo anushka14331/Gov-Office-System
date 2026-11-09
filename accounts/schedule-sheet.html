@@ -106,7 +106,7 @@
                     <i class="fa-solid fa-circle-user text-cyan-300"></i>
                     <div class="text-xs">
                         <span class="text-cyan-200 block text-[10px] uppercase font-bold">පරිශීලකයා</span>
-                        <span id="currentUserDisplay" class="font-bold text-white cursor-pointer hover:underline" onclick="changeCurrentUser()" title="පරිශීලක නම වෙනස් කරන්න">නදීකා (Nadeeka)</span>
+                        <span id="currentUserDisplay" class="font-bold text-white cursor-pointer hover:underline" onclick="changeCurrentUser()" title="පරිශීලක නම වෙනස් කරන්න">Anushaka Nawarathna</span>
                     </div>
                     <button onclick="changeCurrentUser()" class="ml-1 text-xs text-cyan-300 hover:text-white" title="වෙනස් කරන්න">
                         <i class="fa-solid fa-pen-to-square"></i>
@@ -263,9 +263,9 @@
                             <p class="text-[11px] text-slate-500 font-sans">(Prepared by)</p>
                         </div>
                         <div class="h-8 flex items-center justify-center mt-1">
-                            <p id="preparedByName" class="text-xs font-semibold text-irrigation-900 font-sans bg-slate-100 px-3 py-0.5 rounded-full border border-slate-200">නදීකා (Nadeeka)</p>
+                            <p id="preparedByName" class="text-xs font-semibold text-irrigation-900 font-sans bg-slate-100 px-3 py-0.5 rounded-full border border-slate-200">Anushaka Nawarathna</p>
                         </div>
-                        <!-- Developer Attribution nicely spaced downwards -->
+                        <!-- Developer Attribution -->
                         <div class="mt-8 pt-1 text-center w-full">
                             <p class="text-[10px] text-slate-400 font-sans tracking-wide">
                                 Software Developed by Anushka Nawarathna
@@ -288,7 +288,7 @@
                         <div class="mt-8 pt-1 h-4"></div>
                     </div>
 
-                    <!-- Column 3: Approved By (Accountant / Financial Assistant) -->
+                    <!-- Column 3: Approved By -->
                     <div class="flex flex-col items-center">
                         <div class="w-full border-b border-slate-400 border-dashed mb-2 h-16"></div>
                         <div class="h-5 flex items-center justify-center">
@@ -410,12 +410,12 @@
 
     <!-- JavaScript Application Logic (Your Exact Original Script) -->
     <script>
-        // Active Logged In User State
-        let currentUserName = "නදීකා (Nadeeka)";
+        // Active Logged In User State - Defaulted to Anushaka Nawarathna
+        let currentUserName = "Anushaka Nawarathna";
 
         // Master Lists Default Data
         let masterExpenditureHeads = [
-            "450-01-01 (පරිපාලන වියදම්)",
+            "450-01-01 (පරිපාලන செலవులు)",
             "450-02-01 (නඩත්තු කටයුතු)",
             "450-02-02 (වාරිමාර්ග සංවර්ධන)",
             "450-03-05 (ඉන්ධන හා ප්‍රවාහන)"
@@ -600,19 +600,7 @@
         }
 
         function handleAmountBlur(index) {
-            const input = document.getElementById(`amountInput_${index}`);
-            if (input && scheduleItems[index]) {
-                const cleanVal = parseCleanAmount(input.value);
-                scheduleItems[index].amount = cleanVal;
-                input.value = formatCurrencyDisplay(cleanVal);
-                calculateTotal();
-            }
-        }
-
-        function handleNameKeydown(event, index) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                const amtInput = document.getElementById(`amountInput_${index}`);
+            const input = document.getElementById(`amountInput_${index}`); if (input && scheduleItems[index]) { const cleanVal = parseCleanAmount(input.value); scheduleItems[index].amount = cleanVal; input.value = formatCurrencyDisplay(cleanVal); calculateTotal(); } }  function handleNameKeydown(event, index) { if (event.key === 'Enter') { event.preventDefault(); const amtInput = document.getElementById(`amountInput_${index}`);
                 if (amtInput) amtInput.focus();
             }
         }
@@ -628,19 +616,7 @@
                 }
 
                 setTimeout(() => {
-                    const nextNameInput = document.getElementById(`nameInput_${index + 1}`);
-                    if (nextNameInput) {
-                        nextNameInput.focus();
-                    }
-                }, 50);
-            }
-        }
-
-        function addNewRow() {
-            scheduleItems.push({ id: Date.now(), name: '', amount: '' });
-            renderTable();
-            setTimeout(() => {
-                const nextNameInput = document.getElementById(`nameInput_${scheduleItems.length - 1}`);
+                    const nextNameInput = document.getElementById(`nameInput_${index + 1}`); if (nextNameInput) { nextNameInput.focus(); } }, 50); } }  function addNewRow() { scheduleItems.push({ id: Date.now(), name: '', amount: '' }); renderTable(); setTimeout(() => { const nextNameInput = document.getElementById(`nameInput_${scheduleItems.length - 1}`);
                 if (nextNameInput) nextNameInput.focus();
             }, 50);
         }
@@ -705,346 +681,4 @@
                 li.className = 'flex justify-between items-center p-3 text-sm text-slate-700 hover:bg-slate-50';
                 li.innerHTML = `
                     <span>${escapeHtml(exp)}</span>
-                    <button onclick="deleteMasterExp(${idx})" class="text-rose-500 hover:text-rose-700 px-2 py-1 text-xs">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                `;
-                expList.appendChild(li);
-            });
-
-            const namesList = document.getElementById('namesList');
-            namesList.innerHTML = '';
-            masterNamesList.forEach((name, idx) => {
-                const li = document.createElement('li');
-                li.className = 'flex justify-between items-center p-3 text-sm text-slate-700 hover:bg-slate-50';
-                li.innerHTML = `
-                    <span>${escapeHtml(name)}</span>
-                    <button onclick="deleteMasterName(${idx})" class="text-rose-500 hover:text-rose-700 px-2 py-1 text-xs">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                `;
-                namesList.appendChild(li);
-            });
-        }
-
-        function addMasterExp() {
-            const input = document.getElementById('newExpInput');
-            const val = input.value.trim();
-            if (val && !masterExpenditureHeads.includes(val)) {
-                masterExpenditureHeads.push(val);
-                input.value = '';
-                saveMasterData();
-                renderMasterListsUI();
-                renderExpenditureDropdown(val);
-                showToast('නව වැය ශීර්ෂය එකතු කරන ලදී', 'success');
-            }
-        }
-
-        function deleteMasterExp(idx) {
-            masterExpenditureHeads.splice(idx, 1);
-            saveMasterData();
-            renderMasterListsUI();
-            renderExpenditureDropdown();
-        }
-
-        function addMasterName() {
-            const input = document.getElementById('newNameInput');
-            const val = input.value.trim();
-            if (val && !masterNamesList.includes(val)) {
-                masterNamesList.push(val);
-                input.value = '';
-                saveMasterData();
-                renderMasterListsUI();
-                renderDatalist();
-                showToast('නව නම / විස්තරය එකතු කරන ලදී', 'success');
-            }
-        }
-
-        function deleteMasterName(idx) {
-            masterNamesList.splice(idx, 1);
-            saveMasterData();
-            renderMasterListsUI();
-            renderDatalist();
-        }
-
-        // Storage Operations
-        function saveMasterData() {
-            localStorage.setItem('irrigation_master_exp', JSON.stringify(masterExpenditureHeads));
-            localStorage.setItem('irrigation_master_names', JSON.stringify(masterNamesList));
-        }
-
-        function loadMasterData() {
-            const savedExp = localStorage.getItem('irrigation_master_exp');
-            const savedNames = localStorage.getItem('irrigation_master_names');
-            if (savedExp) masterExpenditureHeads = JSON.parse(savedExp);
-            if (savedNames) masterNamesList = JSON.parse(savedNames);
-        }
-
-        function saveToLocalStorage() {
-            saveMasterData();
-            const dataToSave = {
-                expenditureHead: document.getElementById('expenditureHeadSelect').value,
-                voucherNo: document.getElementById('voucherNo').value,
-                sheetDate: document.getElementById('sheetDate').value,
-                items: scheduleItems
-            };
-            localStorage.setItem('irrigation_schedule_sheet', JSON.stringify(dataToSave));
-            showToast('සියලුම දත්ත සාර්ථකව සුරකින ලදී!', 'success');
-        }
-
-        function loadFromLocalStorage() {
-            const saved = localStorage.getItem('irrigation_schedule_sheet');
-            if (saved) {
-                try {
-                    const parsed = JSON.parse(saved);
-                    if (parsed.expenditureHead) renderExpenditureDropdown(parsed.expenditureHead);
-                    if (parsed.voucherNo) document.getElementById('voucherNo').value = parsed.voucherNo;
-                    if (parsed.sheetDate) document.getElementById('sheetDate').value = parsed.sheetDate;
-                    if (Array.isArray(parsed.items) && parsed.items.length > 0) scheduleItems = parsed.items;
-                } catch (e) {
-                    console.error('Error loading saved state:', e);
-                }
-            }
-        }
-
-        function clearAllData() {
-            if (confirm('ඔබට සියලුම දත්ත මකා දැමීමට අවශ්‍යද?')) {
-                scheduleItems = [
-                    { id: 1, name: "", amount: "" },
-                    { id: 2, name: "", amount: "" },
-                    { id: 3, name: "", amount: "" }
-                ];
-                document.getElementById('expenditureHeadSelect').value = '';
-                document.getElementById('voucherNo').value = '';
-                localStorage.removeItem('irrigation_schedule_sheet');
-                renderTable();
-                showToast('සියලුම දත්ත මකා දමන ලදී', 'error');
-            }
-        }
-
-        // CSV Export with UTF-8 BOM
-        function exportToCSV() {
-            const expHead = document.getElementById('expenditureHeadSelect').value || 'N/A';
-            const vNo = document.getElementById('voucherNo').value || 'N/A';
-            const sDate = document.getElementById('sheetDate').value || 'N/A';
-
-            let csvContent = "\uFEFF"; // UTF-8 BOM for Sinhala characters in Excel
-            csvContent += `Central Province Irrigation Department - Schedule Sheet\r\n`;
-            csvContent += `Expenditure Head: ${expHead}, Voucher No: ${vNo}, Date: ${sDate}\r\n\r\n`;
-            csvContent += `Index,Name / Particulars,Amount (LKR)\r\n`;
-
-            let total = 0;
-            scheduleItems.forEach((item, idx) => {
-                const name = `"${(item.name || '').replace(/"/g, '""')}"`;
-                const amt = parseFloat(item.amount) || 0;
-                total += amt;
-                csvContent += `${idx + 1},${name},${amt.toFixed(2)}\r\n`;
-            });
-
-            csvContent += `,,Total: ${total.toFixed(2)}\r\n`;
-
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a");
-            const url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute("download", `Schedule_Sheet_${vNo || 'export'}_${sDate}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-
-            showToast('CSV ගොනුව බාගත කරන ලදී', 'success');
-        }
-
-        // ==========================================
-        // Web Crypto AES-GCM Encryption / Decryption
-        // ==========================================
-        const INTERNAL_SYSTEM_SALT = new Uint8Array([73, 114, 114, 105, 103, 97, 116, 105, 111, 110, 67, 101, 110, 116, 114, 97]);
-        const INTERNAL_BASE_PHRASE = "CentralProv_IrrigationDept_VoucherSheet_2026_SecureVaultKey";
-
-        async function deriveInternalCryptoKey() {
-            const enc = new TextEncoder();
-            const keyMaterial = await window.crypto.subtle.importKey(
-                "raw",
-                enc.encode(INTERNAL_BASE_PHRASE),
-                { name: "PBKDF2" },
-                false,
-                ["deriveKey"]
-            );
-
-            return window.crypto.subtle.deriveKey(
-                {
-                    name: "PBKDF2",
-                    salt: INTERNAL_SYSTEM_SALT,
-                    iterations: 100000,
-                    hash: "SHA-256"
-                },
-                keyMaterial,
-                { name: "AES-GCM", length: 256 },
-                false,
-                ["encrypt", "decrypt"]
-            );
-        }
-
-        // Export Encrypted Backup (.enc)
-        async function exportEncryptedBackup() {
-            try {
-                const payload = {
-                    version: "1.0",
-                    created: new Date().toISOString(),
-                    preparedBy: currentUserName,
-                    masterExp: masterExpenditureHeads,
-                    masterNames: masterNamesList,
-                    activeSheet: {
-                        expenditureHead: document.getElementById('expenditureHeadSelect').value,
-                        voucherNo: document.getElementById('voucherNo').value,
-                        sheetDate: document.getElementById('sheetDate').value,
-                        items: scheduleItems
-                    }
-                };
-
-                const jsonStr = JSON.stringify(payload);
-                const enc = new TextEncoder();
-                const dataBytes = enc.encode(jsonStr);
-
-                const key = await deriveInternalCryptoKey();
-                const iv = window.crypto.getRandomValues(new Uint8Array(12));
-
-                const encryptedContent = await window.crypto.subtle.encrypt(
-                    { name: "AES-GCM", iv: iv },
-                    key,
-                    dataBytes
-                );
-
-                const combined = new Uint8Array(iv.length + encryptedContent.byteLength);
-                combined.set(iv, 0);
-                combined.set(new Uint8Array(encryptedContent), iv.length);
-
-                const blob = new Blob([combined], { type: "application/octet-stream" });
-                const datePart = new Date().toISOString().split('T')[0];
-                const vNo = document.getElementById('voucherNo').value.trim() || 'DATA';
-                const filename = `CP_Irrigation_Backup_${vNo}_${datePart}.enc`;
-
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = filename;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(link.href);
-
-                showToast('Encrypted Backup සාර්ථකව බාගත කරන ලදී!', 'success');
-            } catch (err) {
-                console.error("Backup Error:", err);
-                showToast('Backup කිරීම අසාර්ථක විය!', 'error');
-            }
-        }
-
-        // Trigger & Handle Restore (.enc)
-        function triggerRestoreInput() {
-            document.getElementById('restoreFileInput').click();
-        }
-
-        async function handleRestoreFile(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            try {
-                const arrayBuffer = await file.arrayBuffer();
-                if (arrayBuffer.byteLength < 13) {
-                    throw new Error("Invalid file length");
-                }
-
-                const fullBytes = new Uint8Array(arrayBuffer);
-                const iv = fullBytes.slice(0, 12);
-                const cipherBytes = fullBytes.slice(12);
-
-                const key = await deriveInternalCryptoKey();
-                const decryptedBuffer = await window.crypto.subtle.decrypt(
-                    { name: "AES-GCM", iv: iv },
-                    key,
-                    cipherBytes
-                );
-
-                const dec = new TextDecoder();
-                const jsonStr = dec.decode(decryptedBuffer);
-                const restored = JSON.parse(jsonStr);
-
-                if (restored.preparedBy) {
-                    currentUserName = restored.preparedBy;
-                    localStorage.setItem('irrigation_current_user', currentUserName);
-                    updateUserUI();
-                }
-
-                if (Array.isArray(restored.masterExp)) {
-                    masterExpenditureHeads = restored.masterExp;
-                    localStorage.setItem('irrigation_master_exp', JSON.stringify(masterExpenditureHeads));
-                }
-
-                if (Array.isArray(restored.masterNames)) {
-                    masterNamesList = restored.masterNames;
-                    localStorage.setItem('irrigation_master_names', JSON.stringify(masterNamesList));
-                }
-
-                if (restored.activeSheet) {
-                    if (restored.activeSheet.expenditureHead) {
-                        renderExpenditureDropdown(restored.activeSheet.expenditureHead);
-                    } else {
-                        renderExpenditureDropdown();
-                    }
-                    if (restored.activeSheet.voucherNo) {
-                        document.getElementById('voucherNo').value = restored.activeSheet.voucherNo;
-                    }
-                    if (restored.activeSheet.sheetDate) {
-                        document.getElementById('sheetDate').value = restored.activeSheet.sheetDate;
-                    }
-                    if (Array.isArray(restored.activeSheet.items) && restored.activeSheet.items.length > 0) {
-                        scheduleItems = restored.activeSheet.items;
-                    }
-                }
-
-                renderDatalist();
-                renderTable();
-                saveToLocalStorage();
-
-                showToast('දත්ත සාර්ථකව Decrypt කර Restore කරන ලදී!', 'success');
-            } catch (err) {
-                console.error("Restore Error:", err);
-                showToast('අවලංගු හෝ හානි වූ Backup ගොනුවකි!', 'error');
-            } finally {
-                event.target.value = '';
-            }
-        }
-
-        function triggerPrint() {
-            window.print();
-        }
-
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toastNotification');
-            const toastMsg = document.getElementById('toastMessage');
-            const toastIcon = document.getElementById('toastIcon');
-
-            toastMsg.innerText = message;
-
-            if (type === 'success') {
-                toastIcon.className = 'fa-solid fa-circle-check text-emerald-400';
-            } else if (type === 'error') {
-                toastIcon.className = 'fa-solid fa-triangle-exclamation text-rose-400';
-            } else {
-                toastIcon.className = 'fa-solid fa-circle-info text-cyan-400';
-            }
-
-            toast.classList.remove('translate-y-20', 'opacity-0');
-
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
-        }
-
-        function escapeHtml(str) {
-            return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-        }
-    </script>
-</body>
-</html>
+                    <button onclick="deleteMasterExp(${idx})" class="text-rose-
