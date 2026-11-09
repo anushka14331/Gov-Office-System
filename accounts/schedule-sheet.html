@@ -76,7 +76,7 @@
 </head>
 <body class="h-full text-slate-800 font-sans antialiased flex flex-col min-h-screen">
 
-    <!-- Auth Protection Overlay (Initial Validation) -->
+    <!-- Auth Protection Overlay -->
     <div id="auth-loading" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900 text-white no-print">
         <div class="text-center">
             <i class="fa-solid fa-spinner fa-spin text-3xl text-cyan-400 mb-3"></i>
@@ -113,35 +113,35 @@
                     </button>
                 </div>
 
-                <button onclick="openMasterModal()" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5">
+                <button onclick="openMasterModal()" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-list-check text-xs"></i> <span>Master Data</span>
                 </button>
-                <button onclick="addNewRow()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5">
+                <button onclick="addNewRow()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-plus text-xs"></i> <span>පේළියක්</span>
                 </button>
-                <button onclick="saveToLocalStorage()" class="px-3 py-2 bg-cyan-700 hover:bg-cyan-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5">
+                <button onclick="saveToLocalStorage()" class="px-3 py-2 bg-cyan-700 hover:bg-cyan-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-floppy-disk text-xs"></i> <span>සුරකින්න</span>
                 </button>
-                <button onclick="exportToCSV()" class="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5">
+                <button onclick="exportToCSV()" class="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-file-excel text-xs"></i> <span>CSV</span>
                 </button>
 
                 <!-- Encrypted Backup & Restore Buttons -->
-                <button onclick="exportEncryptedBackup()" class="px-3 py-2 bg-teal-700 hover:bg-teal-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5" title="දත්ත Encrypt කර Backup ගොනුවක් බාගත කරන්න">
+                <button onclick="exportEncryptedBackup()" class="px-3 py-2 bg-teal-700 hover:bg-teal-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer" title="දත්ත Encrypt කර Backup ගොනුවක් බාගත කරන්න">
                     <i class="fa-solid fa-shield-halved text-xs"></i> <span>Backup</span>
                 </button>
-                <button onclick="triggerRestoreInput()" class="px-3 py-2 bg-purple-700 hover:bg-purple-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5" title="Encrypted Backup ගොනුවක් තෝරා දත්ත Decrypt කර Restore කරන්න">
+                <button onclick="triggerRestoreInput()" class="px-3 py-2 bg-purple-700 hover:bg-purple-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer" title="Encrypted Backup ගොනුවක් තෝරා දත්ත Decrypt කර Restore කරන්න">
                     <i class="fa-solid fa-rotate-left text-xs"></i> <span>Restore</span>
                 </button>
                 <input type="file" id="restoreFileInput" accept=".enc" class="hidden" onchange="handleRestoreFile(event)">
 
-                <button onclick="triggerPrint()" class="px-3 py-2 bg-amber-600 hover:bg-amber-500 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5">
+                <button onclick="triggerPrint()" class="px-3 py-2 bg-amber-600 hover:bg-amber-500 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-print text-xs"></i> <span>මුද්‍රණය</span>
                 </button>
-                <button onclick="clearAllData()" class="px-3 py-2 bg-rose-700 hover:bg-rose-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5">
+                <button onclick="clearAllData()" class="px-3 py-2 bg-rose-700 hover:bg-rose-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-trash-can text-xs"></i> <span>මකන්න</span>
                 </button>
-                <button id="sub-signout-btn" class="px-2.5 py-2 bg-slate-800 hover:bg-rose-900/80 text-rose-300 hover:text-white rounded-lg text-xs transition border border-rose-900/50" title="Sign Out">
+                <button id="sub-signout-btn" class="px-2.5 py-2 bg-slate-800 hover:bg-rose-900/80 text-rose-300 hover:text-white rounded-lg text-xs transition border border-rose-900/50 cursor-pointer" title="Sign Out">
                     <i class="fa-solid fa-right-from-bracket"></i>
                 </button>
             </div>
@@ -242,7 +242,7 @@
                     </div>
                     <div>
                         <span class="text-xs text-slate-500 font-medium block font-sinhala">මුළු මුදල (Grand Total)</span>
-                        <span id="grandTotalLabel" class="text-lg font-bold text-emerald-800">LKR 0.00</span>
+                        <span id="grandTotalLabel" class="text-lg font-bold text-emerald-800">Rs. 0.00</span>
                     </div>
                 </div>
             </div>
@@ -265,7 +265,6 @@
                         <div class="h-8 flex items-center justify-center mt-1">
                             <p id="preparedByName" class="text-xs font-semibold text-irrigation-900 font-sans bg-slate-100 px-3 py-0.5 rounded-full border border-slate-200">Anushaka Nawarathna</p>
                         </div>
-                        <!-- Developer Attribution -->
                         <div class="mt-8 pt-1 text-center w-full">
                             <p class="text-[10px] text-slate-400 font-sans tracking-wide">
                                 Software Developed by Anushka Nawarathna
@@ -316,17 +315,17 @@
                 <h3 class="text-xl font-bold font-sinhala text-slate-800 flex items-center gap-2">
                     <i class="fa-solid fa-sliders text-indigo-600"></i> Master File Data කළමනාකරණය
                 </h3>
-                <button onclick="closeMasterModal()" class="text-slate-400 hover:text-slate-600 rounded-lg p-1.5 text-lg">
+                <button onclick="closeMasterModal()" class="text-slate-400 hover:text-slate-600 rounded-lg p-1.5 text-lg cursor-pointer">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
             <!-- Tabs -->
             <div class="flex border-b border-slate-200 mt-4">
-                <button id="tabExpBtn" onclick="switchTab('expenditure')" class="px-4 py-2 text-sm font-semibold border-b-2 border-indigo-600 text-indigo-600 font-sinhala">
+                <button id="tabExpBtn" onclick="switchTab('expenditure')" class="px-4 py-2 text-sm font-semibold border-b-2 border-indigo-600 text-indigo-600 font-sinhala cursor-pointer">
                     වැය ශීර්ෂ ලැයිස්තුව (Expenditure Heads)
                 </button>
-                <button id="tabNameBtn" onclick="switchTab('names')" class="px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 font-sinhala">
+                <button id="tabNameBtn" onclick="switchTab('names')" class="px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 font-sinhala cursor-pointer">
                     නම / විස්තර Master File (Names List)
                 </button>
             </div>
@@ -335,7 +334,7 @@
             <div id="tabExpContent" class="py-4 space-y-4 overflow-y-auto flex-1">
                 <div class="flex gap-2">
                     <input type="text" id="newExpInput" placeholder="නව වැය ශීර්ෂයක් ඇතුළත් කරන්න (උදා: 450-02-01)" class="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <button onclick="addMasterExp()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium font-sinhala">
+                    <button onclick="addMasterExp()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium font-sinhala cursor-pointer">
                         එකතු කරන්න
                     </button>
                 </div>
@@ -347,7 +346,7 @@
             <div id="tabNamesContent" class="py-4 space-y-4 overflow-y-auto flex-1 hidden">
                 <div class="flex gap-2">
                     <input type="text" id="newNameInput" placeholder="නව නම / විස්තරයක් ඇතුළත් කරන්න" class="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <button onclick="addMasterName()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium font-sinhala">
+                    <button onclick="addMasterName()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium font-sinhala cursor-pointer">
                         එකතු කරන්න
                     </button>
                 </div>
@@ -356,7 +355,7 @@
             </div>
 
             <div class="pt-4 border-t border-slate-200 flex justify-end">
-                <button onclick="closeMasterModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-lg text-sm font-sinhala">
+                <button onclick="closeMasterModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-lg text-sm font-sinhala cursor-pointer">
                     වසා දමන්න
                 </button>
             </div>
@@ -402,26 +401,30 @@
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 if (loadingOverlay) loadingOverlay.classList.add('hidden');
+                // Page initialization once authenticated
+                if (typeof window.initScheduleApp === 'function') {
+                    window.initScheduleApp();
+                }
             } else {
                 window.location.href = '../index.html';
             }
         });
     </script>
 
-    <!-- JavaScript Application Logic (Your Exact Original Script) -->
+    <!-- JavaScript Application Logic (Globally Attached & Direct Execution) -->
     <script>
-        // Active Logged In User State - Defaulted to Anushaka Nawarathna
-        let currentUserName = "Anushaka Nawarathna";
+        // Active Logged In User State
+        window.currentUserName = "Anushaka Nawarathna";
 
         // Master Lists Default Data
-        let masterExpenditureHeads = [
-            "450-01-01 (පරිපාලන செலవులు)",
+        window.masterExpenditureHeads = [
+            "450-01-01 (පරිපාලන වියදම්)",
             "450-02-01 (නඩත්තු කටයුතු)",
             "450-02-02 (වාරිමාර්ග සංවර්ධන)",
             "450-03-05 (ඉන්ධන හා ප්‍රවාහන)"
         ];
 
-        let masterNamesList = [
+        window.masterNamesList = [
             "එන්. නදීකා (Nadeeka Akka)",
             "ජල සම්පාදන ව්‍යාපෘති ගෙවීම්",
             "කාර්යාලීය නඩත්තු ගෙවීම්",
@@ -429,17 +432,18 @@
             "ඉන්ධන දීමනා"
         ];
 
-        // State Array holding table items
-        let scheduleItems = [
+        // State Array holding table items (Default 3 rows)
+        window.scheduleItems = [
             { id: 1, name: "", amount: "" },
             { id: 2, name: "", amount: "" },
             { id: 3, name: "", amount: "" }
         ];
 
-        // Initialize App on DOM Load
-        window.onload = function() {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('sheetDate').value = today;
+        window.initScheduleApp = function() {
+            const dateInput = document.getElementById('sheetDate');
+            if (dateInput && !dateInput.value) {
+                dateInput.value = new Date().toISOString().split('T')[0];
+            }
 
             loadUserData();
             loadMasterData();
@@ -451,59 +455,66 @@
             updateUserUI();
         };
 
-        // User Profile Functions
-        function updateUserUI() {
-            document.getElementById('currentUserDisplay').innerText = currentUserName;
-            document.getElementById('preparedByName').innerText = currentUserName;
-        }
+        // Fallback DOMContentLoaded execution
+        document.addEventListener('DOMContentLoaded', () => {
+            window.initScheduleApp();
+        });
 
-        function changeCurrentUser() {
-            const newUser = prompt("ලොග් වී සිටින පරිශීලකයාගේ නම ඇතුළත් කරන්න (Prepared by):", currentUserName);
+        // User Profile Functions
+        window.updateUserUI = function() {
+            const displayEl = document.getElementById('currentUserDisplay');
+            const prepEl = document.getElementById('preparedByName');
+            if (displayEl) displayEl.innerText = window.currentUserName;
+            if (prepEl) prepEl.innerText = window.currentUserName;
+        };
+
+        window.changeCurrentUser = function() {
+            const newUser = prompt("ලොග් වී සිටින පරිශීලකයාගේ නම ඇතුළත් කරන්න (Prepared by):", window.currentUserName);
             if (newUser && newUser.trim() !== "") {
-                currentUserName = newUser.trim();
-                localStorage.setItem('irrigation_current_user', currentUserName);
-                updateUserUI();
-                showToast('පරිශීලක නම වෙනස් කරන ලදී', 'success');
+                window.currentUserName = newUser.trim();
+                localStorage.setItem('irrigation_current_user', window.currentUserName);
+                window.updateUserUI();
+                window.showToast('පරිශීලක නම වෙනස් කරන ලදී', 'success');
             }
-        }
+        };
 
         function loadUserData() {
             const savedUser = localStorage.getItem('irrigation_current_user');
             if (savedUser) {
-                currentUserName = savedUser;
+                window.currentUserName = savedUser;
             }
         }
 
         // Render Dropdown & Datalist
-        function renderExpenditureDropdown(selectedVal = '') {
+        window.renderExpenditureDropdown = function(selectedVal = '') {
             const select = document.getElementById('expenditureHeadSelect');
+            if (!select) return;
             const currentVal = selectedVal || select.value;
             select.innerHTML = '<option value="">-- වැය ශීර්ෂය තෝරන්න --</option>';
 
-            masterExpenditureHeads.forEach(head => {
+            window.masterExpenditureHeads.forEach(head => {
                 const opt = document.createElement('option');
                 opt.value = head;
                 opt.innerText = head;
                 if (head === currentVal) opt.selected = true;
                 select.appendChild(opt);
             });
-        }
+        };
 
-        function renderDatalist() {
+        window.renderDatalist = function() {
             const datalist = document.getElementById('masterNamesDatalist');
+            if (!datalist) return;
             datalist.innerHTML = '';
-            masterNamesList.forEach(name => {
+            window.masterNamesList.forEach(name => {
                 const option = document.createElement('option');
                 option.value = name;
                 datalist.appendChild(option);
             });
-        }
+        };
 
-        // Parse & Clean Amount Helper
         function parseCleanAmount(val) {
             if (val === null || val === undefined) return '';
-            const cleaned = String(val).replace(/[^0-9.-]/g, '');
-            return cleaned;
+            return String(val).replace(/[^0-9.-]/g, '');
         }
 
         function formatCurrencyDisplay(val) {
@@ -515,12 +526,13 @@
             });
         }
 
-        // Render Table without focus resets during normal typing
-        function renderTable() {
+        // Render Table & Attach listeners
+        window.renderTable = function() {
             const tbody = document.getElementById('tableBody');
+            if (!tbody) return;
             tbody.innerHTML = '';
 
-            if (scheduleItems.length === 0) {
+            if (window.scheduleItems.length === 0) {
                 tbody.innerHTML = `
                     <tr class="no-print">
                         <td colspan="4" class="py-8 text-center text-slate-400 font-sinhala">
@@ -530,7 +542,7 @@
                 `;
             }
 
-            scheduleItems.forEach((item, index) => {
+            window.scheduleItems.forEach((item, index) => {
                 const tr = document.createElement('tr');
                 tr.className = 'hover:bg-slate-50/70 transition-colors';
                 const formattedVal = formatCurrencyDisplay(item.amount);
@@ -547,7 +559,7 @@
                                 placeholder="නම / විස්තරය තෝරන්න හෝ ඇතුළත් කරන්න..." 
                                 oninput="updateRowSilent(${index}, 'name', this.value)"
                                 onkeydown="handleNameKeydown(event, ${index})"
-                                class="w-full bg-transparent border border-transparent hover:border-slate-300 focus:border-irrigation-500 focus:bg-white rounded px-2 py-1 text-sm text-slate-800 transition focus:outline-none"
+                                class="w-full bg-transparent border border-transparent hover:border-slate-300 focus:border-cyan-600 focus:bg-white rounded px-2 py-1 text-sm text-slate-800 transition focus:outline-none"
                             />
                         </div>
                     </td>
@@ -561,14 +573,14 @@
                             onblur="handleAmountBlur(${index})"
                             oninput="updateRowSilent(${index}, 'amount', this.value)"
                             onkeydown="handleAmountKeydown(event, ${index})"
-                            class="w-full text-right bg-transparent border border-transparent hover:border-slate-300 focus:border-irrigation-500 focus:bg-white rounded px-2 py-1 text-sm font-mono font-semibold text-slate-800 transition focus:outline-none"
+                            class="w-full text-right bg-transparent border border-transparent hover:border-slate-300 focus:border-cyan-600 focus:bg-white rounded px-2 py-1 text-sm font-mono font-semibold text-slate-800 transition focus:outline-none"
                         />
                     </td>
                     <td class="py-2 px-4 text-center no-print">
                         <button 
                             onclick="removeRow(${index})" 
                             title="මකන්න" 
-                            class="w-8 h-8 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 flex items-center justify-center mx-auto transition"
+                            class="w-8 h-8 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 flex items-center justify-center mx-auto transition cursor-pointer"
                         >
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
@@ -577,108 +589,486 @@
                 tbody.appendChild(tr);
             });
 
-            calculateTotal();
-        }
+            window.calculateTotal();
+        };
 
-        function updateRowSilent(index, field, value) {
-            if (!scheduleItems[index]) return;
+        window.updateRowSilent = function(index, field, value) {
+            if (!window.scheduleItems[index]) return;
             if (field === 'amount') {
-                scheduleItems[index].amount = parseCleanAmount(value);
+                window.scheduleItems[index].amount = parseCleanAmount(value);
             } else {
-                scheduleItems[index].name = value;
+                window.scheduleItems[index].name = value;
             }
-            calculateTotal();
-        }
+            window.calculateTotal();
+        };
 
-        function handleAmountFocus(index) {
+        window.handleAmountFocus = function(index) {
             const input = document.getElementById(`amountInput_${index}`);
-            if (input && scheduleItems[index]) {
-                const rawVal = scheduleItems[index].amount;
+            if (input && window.scheduleItems[index]) {
+                const rawVal = window.scheduleItems[index].amount;
                 input.value = (rawVal !== undefined && rawVal !== null) ? rawVal : '';
                 input.select();
             }
-        }
+        };
 
-        function handleAmountBlur(index) {
-            const input = document.getElementById(`amountInput_${index}`); if (input && scheduleItems[index]) { const cleanVal = parseCleanAmount(input.value); scheduleItems[index].amount = cleanVal; input.value = formatCurrencyDisplay(cleanVal); calculateTotal(); } }  function handleNameKeydown(event, index) { if (event.key === 'Enter') { event.preventDefault(); const amtInput = document.getElementById(`amountInput_${index}`);
-                if (amtInput) amtInput.focus();
+        window.handleAmountBlur = function(index) {
+            const input = document.getElementById(`amountInput_${index}`);
+            if (input && window.scheduleItems[index]) {
+                const cleanVal = parseCleanAmount(input.value);
+                window.scheduleItems[index].amount = cleanVal;
+                input.value = formatCurrencyDisplay(cleanVal);
+                window.calculateTotal();
             }
-        }
+        };
 
-        function handleAmountKeydown(event, index) {
+        window.handleNameKeydown = function(event, index) {
             if (event.key === 'Enter') {
                 event.preventDefault();
-                handleAmountBlur(index);
+                const amtInput = document.getElementById(`amountInput_${index}`);
+                if (amtInput) amtInput.focus();
+            }
+        };
 
-                if (index === scheduleItems.length - 1) {
-                    scheduleItems.push({ id: Date.now(), name: '', amount: '' });
-                    renderTable();
+        window.handleAmountKeydown = function(event, index) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                window.handleAmountBlur(index);
+
+                if (index === window.scheduleItems.length - 1) {
+                    window.scheduleItems.push({ id: Date.now(), name: '', amount: '' });
+                    window.renderTable();
                 }
 
                 setTimeout(() => {
-                    const nextNameInput = document.getElementById(`nameInput_${index + 1}`); if (nextNameInput) { nextNameInput.focus(); } }, 50); } }  function addNewRow() { scheduleItems.push({ id: Date.now(), name: '', amount: '' }); renderTable(); setTimeout(() => { const nextNameInput = document.getElementById(`nameInput_${scheduleItems.length - 1}`);
+                    const nextNameInput = document.getElementById(`nameInput_${index + 1}`);
+                    if (nextNameInput) {
+                        nextNameInput.focus();
+                    }
+                }, 50);
+            }
+        };
+
+        window.addNewRow = function() {
+            window.scheduleItems.push({ id: Date.now(), name: '', amount: '' });
+            window.renderTable();
+            setTimeout(() => {
+                const nextNameInput = document.getElementById(`nameInput_${window.scheduleItems.length - 1}`);
                 if (nextNameInput) nextNameInput.focus();
             }, 50);
-        }
+        };
 
-        function removeRow(index) {
-            scheduleItems.splice(index, 1);
-            if (scheduleItems.length === 0) {
-                scheduleItems.push({ id: Date.now(), name: '', amount: '' });
+        window.removeRow = function(index) {
+            window.scheduleItems.splice(index, 1);
+            if (window.scheduleItems.length === 0) {
+                window.scheduleItems.push({ id: Date.now(), name: '', amount: '' });
             }
-            renderTable();
-            showToast('පේළිය ඉවත් කරන ලදී', 'info');
-        }
+            window.renderTable();
+            window.showToast('පේළිය ඉවත් කරන ලදී', 'info');
+        };
 
-        function calculateTotal() {
+        window.calculateTotal = function() {
             let total = 0;
-            scheduleItems.forEach(item => {
+            window.scheduleItems.forEach(item => {
                 const val = parseFloat(item.amount);
                 if (!isNaN(val)) total += val;
             });
 
             const formattedTotal = 'Rs. ' + total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            document.getElementById('totalAmount').innerText = formattedTotal;
-            document.getElementById('grandTotalLabel').innerText = formattedTotal;
-            document.getElementById('rowCountLabel').innerText = scheduleItems.length;
-        }
+            const totalAmountEl = document.getElementById('totalAmount');
+            const grandTotalLabelEl = document.getElementById('grandTotalLabel');
+            const rowCountLabelEl = document.getElementById('rowCountLabel');
+
+            if (totalAmountEl) totalAmountEl.innerText = formattedTotal;
+            if (grandTotalLabelEl) grandTotalLabelEl.innerText = formattedTotal;
+            if (rowCountLabelEl) rowCountLabelEl.innerText = window.scheduleItems.length;
+        };
 
         // Master Modal Operations
-        function openMasterModal(tab = 'expenditure') {
-            document.getElementById('masterModal').classList.remove('hidden');
-            switchTab(tab);
+        window.openMasterModal = function(tab = 'expenditure') {
+            const modal = document.getElementById('masterModal');
+            if (modal) modal.classList.remove('hidden');
+            window.switchTab(tab);
             renderMasterListsUI();
-        }
+        };
 
-        function closeMasterModal() {
-            document.getElementById('masterModal').classList.add('hidden');
-        }
+        window.closeMasterModal = function() {
+            const modal = document.getElementById('masterModal');
+            if (modal) modal.classList.add('hidden');
+        };
 
-        function switchTab(tab) {
+        window.switchTab = function(tab) {
             const expBtn = document.getElementById('tabExpBtn');
             const nameBtn = document.getElementById('tabNameBtn');
             const expContent = document.getElementById('tabExpContent');
             const nameContent = document.getElementById('tabNamesContent');
 
             if (tab === 'expenditure') {
-                expBtn.className = "px-4 py-2 text-sm font-semibold border-b-2 border-indigo-600 text-indigo-600 font-sinhala";
-                nameBtn.className = "px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 font-sinhala";
-                expContent.classList.remove('hidden');
-                nameContent.classList.add('hidden');
+                if (expBtn) expBtn.className = "px-4 py-2 text-sm font-semibold border-b-2 border-indigo-600 text-indigo-600 font-sinhala cursor-pointer";
+                if (nameBtn) nameBtn.className = "px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 font-sinhala cursor-pointer";
+                if (expContent) expContent.classList.remove('hidden');
+                if (nameContent) nameContent.classList.add('hidden');
             } else {
-                nameBtn.className = "px-4 py-2 text-sm font-semibold border-b-2 border-indigo-600 text-indigo-600 font-sinhala";
-                expBtn.className = "px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 font-sinhala";
-                nameContent.classList.remove('hidden');
-                expContent.classList.add('hidden');
+                if (nameBtn) nameBtn.className = "px-4 py-2 text-sm font-semibold border-b-2 border-indigo-600 text-indigo-600 font-sinhala cursor-pointer";
+                if (expBtn) expBtn.className = "px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 font-sinhala cursor-pointer";
+                if (nameContent) nameContent.classList.remove('hidden');
+                if (expContent) expContent.classList.add('hidden');
             }
-        }
+        };
 
         function renderMasterListsUI() {
             const expList = document.getElementById('expList');
-            expList.innerHTML = '';
-            masterExpenditureHeads.forEach((exp, idx) => {
-                const li = document.createElement('li');
-                li.className = 'flex justify-between items-center p-3 text-sm text-slate-700 hover:bg-slate-50';
-                li.innerHTML = `
-                    <span>${escapeHtml(exp)}</span>
-                    <button onclick="deleteMasterExp(${idx})" class="text-rose-
+            if (expList) {
+                expList.innerHTML = '';
+                window.masterExpenditureHeads.forEach((exp, idx) => {
+                    const li = document.createElement('li');
+                    li.className = 'flex justify-between items-center p-3 text-sm text-slate-700 hover:bg-slate-50';
+                    li.innerHTML = `
+                        <span>${escapeHtml(exp)}</span>
+                        <button onclick="deleteMasterExp(${idx})" class="text-rose-500 hover:text-rose-700 px-2 py-1 text-xs cursor-pointer">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    `;
+                    expList.appendChild(li);
+                });
+            }
+
+            const namesList = document.getElementById('namesList');
+            if (namesList) {
+                namesList.innerHTML = '';
+                window.masterNamesList.forEach((name, idx) => {
+                    const li = document.createElement('li');
+                    li.className = 'flex justify-between items-center p-3 text-sm text-slate-700 hover:bg-slate-50';
+                    li.innerHTML = `
+                        <span>${escapeHtml(name)}</span>
+                        <button onclick="deleteMasterName(${idx})" class="text-rose-500 hover:text-rose-700 px-2 py-1 text-xs cursor-pointer">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    `;
+                    namesList.appendChild(li);
+                });
+            }
+        }
+
+        window.addMasterExp = function() {
+            const input = document.getElementById('newExpInput');
+            const val = input.value.trim();
+            if (val && !window.masterExpenditureHeads.includes(val)) {
+                window.masterExpenditureHeads.push(val);
+                input.value = '';
+                saveMasterData();
+                renderMasterListsUI();
+                window.renderExpenditureDropdown(val);
+                window.showToast('නව වැය ශීර්ෂය එකතු කරන ලදී', 'success');
+            }
+        };
+
+        window.deleteMasterExp = function(idx) {
+            window.masterExpenditureHeads.splice(idx, 1);
+            saveMasterData();
+            renderMasterListsUI();
+            window.renderExpenditureDropdown();
+        };
+
+        window.addMasterName = function() {
+            const input = document.getElementById('newNameInput');
+            const val = input.value.trim();
+            if (val && !window.masterNamesList.includes(val)) {
+                window.masterNamesList.push(val);
+                input.value = '';
+                saveMasterData();
+                renderMasterListsUI();
+                window.renderDatalist();
+                window.showToast('නව නම / විස්තරය එකතු කරන ලදී', 'success');
+            }
+        };
+
+        window.deleteMasterName = function(idx) {
+            window.masterNamesList.splice(idx, 1);
+            saveMasterData();
+            renderMasterListsUI();
+            window.renderDatalist();
+        };
+
+        function saveMasterData() {
+            localStorage.setItem('irrigation_master_exp', JSON.stringify(window.masterExpenditureHeads));
+            localStorage.setItem('irrigation_master_names', JSON.stringify(window.masterNamesList));
+        }
+
+        function loadMasterData() {
+            const savedExp = localStorage.getItem('irrigation_master_exp');
+            const savedNames = localStorage.getItem('irrigation_master_names');
+            if (savedExp) window.masterExpenditureHeads = JSON.parse(savedExp);
+            if (savedNames) window.masterNamesList = JSON.parse(savedNames);
+        }
+
+        window.saveToLocalStorage = function() {
+            saveMasterData();
+            const dataToSave = {
+                expenditureHead: document.getElementById('expenditureHeadSelect').value,
+                voucherNo: document.getElementById('voucherNo').value,
+                sheetDate: document.getElementById('sheetDate').value,
+                items: window.scheduleItems
+            };
+            localStorage.setItem('irrigation_schedule_sheet', JSON.stringify(dataToSave));
+            window.showToast('සියලුම දත්ත සාර්ථකව සුරකින ලදී!', 'success');
+        };
+
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem('irrigation_schedule_sheet');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    if (parsed.expenditureHead) window.renderExpenditureDropdown(parsed.expenditureHead);
+                    if (parsed.voucherNo) document.getElementById('voucherNo').value = parsed.voucherNo;
+                    if (parsed.sheetDate) document.getElementById('sheetDate').value = parsed.sheetDate;
+                    if (Array.isArray(parsed.items) && parsed.items.length > 0) window.scheduleItems = parsed.items;
+                } catch (e) {
+                    console.error('Error loading saved state:', e);
+                }
+            }
+        }
+
+        window.clearAllData = function() {
+            if (confirm('ඔබට සියලුම දත්ත මකා දැමීමට අවශ්‍යද?')) {
+                window.scheduleItems = [
+                    { id: 1, name: "", amount: "" },
+                    { id: 2, name: "", amount: "" },
+                    { id: 3, name: "", amount: "" }
+                ];
+                document.getElementById('expenditureHeadSelect').value = '';
+                document.getElementById('voucherNo').value = '';
+                localStorage.removeItem('irrigation_schedule_sheet');
+                window.renderTable();
+                window.showToast('සියලුම දත්ත මකා දමන ලදී', 'error');
+            }
+        };
+
+        window.exportToCSV = function() {
+            const expHead = document.getElementById('expenditureHeadSelect').value || 'N/A';
+            const vNo = document.getElementById('voucherNo').value || 'N/A';
+            const sDate = document.getElementById('sheetDate').value || 'N/A';
+
+            let csvContent = "\uFEFF"; 
+            csvContent += `Central Province Irrigation Department - Schedule Sheet\r\n`;
+            csvContent += `Expenditure Head: ${expHead}, Voucher No: ${vNo}, Date: ${sDate}\r\n\r\n`;
+            csvContent += `Index,Name / Particulars,Amount (LKR)\r\n`;
+
+            let total = 0;
+            window.scheduleItems.forEach((item, idx) => {
+                const name = `"${(item.name || '').replace(/"/g, '""')}"`;
+                const amt = parseFloat(item.amount) || 0;
+                total += amt;
+                csvContent += `${idx + 1},${name},${amt.toFixed(2)}\r\n`;
+            });
+
+            csvContent += `,,Total: ${total.toFixed(2)}\r\n`;
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", `Schedule_Sheet_${vNo || 'export'}_${sDate}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+
+            window.showToast('CSV ගොනුව බාගත කරන ලදී', 'success');
+        };
+
+        const INTERNAL_SYSTEM_SALT = new Uint8Array([73, 114, 114, 105, 103, 97, 116, 105, 111, 110, 67, 101, 110, 116, 114, 97]);
+        const INTERNAL_BASE_PHRASE = "CentralProv_IrrigationDept_VoucherSheet_2026_SecureVaultKey";
+
+        async function deriveInternalCryptoKey() {
+            const enc = new TextEncoder();
+            const keyMaterial = await window.crypto.subtle.importKey(
+                "raw",
+                enc.encode(INTERNAL_BASE_PHRASE),
+                { name: "PBKDF2" },
+                false,
+                ["deriveKey"]
+            );
+
+            return window.crypto.subtle.deriveKey(
+                {
+                    name: "PBKDF2",
+                    salt: INTERNAL_SYSTEM_SALT,
+                    iterations: 100000,
+                    hash: "SHA-256"
+                },
+                keyMaterial,
+                { name: "AES-GCM", length: 256 },
+                false,
+                ["encrypt", "decrypt"]
+            );
+        }
+
+        window.exportEncryptedBackup = async function() {
+            try {
+                const payload = {
+                    version: "1.0",
+                    created: new Date().toISOString(),
+                    preparedBy: window.currentUserName,
+                    masterExp: window.masterExpenditureHeads,
+                    masterNames: window.masterNamesList,
+                    activeSheet: {
+                        expenditureHead: document.getElementById('expenditureHeadSelect').value,
+                        voucherNo: document.getElementById('voucherNo').value,
+                        sheetDate: document.getElementById('sheetDate').value,
+                        items: window.scheduleItems
+                    }
+                };
+
+                const jsonStr = JSON.stringify(payload);
+                const enc = new TextEncoder();
+                const dataBytes = enc.encode(jsonStr);
+
+                const key = await deriveInternalCryptoKey();
+                const iv = window.crypto.getRandomValues(new Uint8Array(12));
+
+                const encryptedContent = await window.crypto.subtle.encrypt(
+                    { name: "AES-GCM", iv: iv },
+                    key,
+                    dataBytes
+                );
+
+                const combined = new Uint8Array(iv.length + encryptedContent.byteLength);
+                combined.set(iv, 0);
+                combined.set(new Uint8Array(encryptedContent), iv.length);
+
+                const blob = new Blob([combined], { type: "application/octet-stream" });
+                const datePart = new Date().toISOString().split('T')[0];
+                const vNo = document.getElementById('voucherNo').value.trim() || 'DATA';
+                const filename = `CP_Irrigation_Backup_${vNo}_${datePart}.enc`;
+
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+
+                window.showToast('Encrypted Backup සාර්ථකව බාගත කරන ලදී!', 'success');
+            } catch (err) {
+                console.error("Backup Error:", err);
+                window.showToast('Backup කිරීම අසාර්ථක විය!', 'error');
+            }
+        };
+
+        window.triggerRestoreInput = function() {
+            const input = document.getElementById('restoreFileInput');
+            if (input) input.click();
+        };
+
+        window.handleRestoreFile = async function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                if (arrayBuffer.byteLength < 13) {
+                    throw new Error("Invalid file length");
+                }
+
+                const fullBytes = new Uint8Array(arrayBuffer);
+                const iv = fullBytes.slice(0, 12);
+                const cipherBytes = fullBytes.slice(12);
+
+                const key = await deriveInternalCryptoKey();
+                const decryptedBuffer = await window.crypto.subtle.decrypt(
+                    { name: "AES-GCM", iv: iv },
+                    key,
+                    cipherBytes
+                );
+
+                const dec = new TextDecoder();
+                const jsonStr = dec.decode(decryptedBuffer);
+                const restored = JSON.parse(jsonStr);
+
+                if (restored.preparedBy) {
+                    window.currentUserName = restored.preparedBy;
+                    localStorage.setItem('irrigation_current_user', window.currentUserName);
+                    window.updateUserUI();
+                }
+
+                if (Array.isArray(restored.masterExp)) {
+                    window.masterExpenditureHeads = restored.masterExp;
+                    localStorage.setItem('irrigation_master_exp', JSON.stringify(window.masterExpenditureHeads));
+                }
+
+                if (Array.isArray(restored.masterNames)) {
+                    window.masterNamesList = restored.masterNames;
+                    localStorage.setItem('irrigation_master_names', JSON.stringify(window.masterNamesList));
+                }
+
+                if (restored.activeSheet) {
+                    if (restored.activeSheet.expenditureHead) {
+                        window.renderExpenditureDropdown(restored.activeSheet.expenditureHead);
+                    } else {
+                        window.renderExpenditureDropdown();
+                    }
+                    if (restored.activeSheet.voucherNo) {
+                        document.getElementById('voucherNo').value = restored.activeSheet.voucherNo;
+                    }
+                    if (restored.activeSheet.sheetDate) {
+                        document.getElementById('sheetDate').value = restored.activeSheet.sheetDate;
+                    }
+                    if (Array.isArray(restored.activeSheet.items) && restored.activeSheet.items.length > 0) {
+                        window.scheduleItems = restored.activeSheet.items;
+                    }
+                }
+
+                window.renderDatalist();
+                window.renderTable();
+                saveMasterData();
+                localStorage.setItem('irrigation_schedule_sheet', JSON.stringify({
+                    expenditureHead: document.getElementById('expenditureHeadSelect').value,
+                    voucherNo: document.getElementById('voucherNo').value,
+                    sheetDate: document.getElementById('sheetDate').value,
+                    items: window.scheduleItems
+                }));
+
+                window.showToast('දත්ත සාර්ථකව Decrypt කර Restore කරන ලදී!', 'success');
+            } catch (err) {
+                console.error("Restore Error:", err);
+                window.showToast('අවලංගු හෝ හානි වූ Backup ගොනුවකි!', 'error');
+            } finally {
+                event.target.value = '';
+            }
+        };
+
+        window.triggerPrint = function() {
+            window.print();
+        };
+
+        window.showToast = function(message, type = 'success') {
+            const toast = document.getElementById('toastNotification');
+            const toastMsg = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            if (!toast || !toastMsg || !toastIcon) return;
+
+            toastMsg.innerText = message;
+
+            if (type === 'success') {
+                toastIcon.className = 'fa-solid fa-circle-check text-emerald-400';
+            } else if (type === 'error') {
+                toastIcon.className = 'fa-solid fa-triangle-exclamation text-rose-400';
+            } else {
+                toastIcon.className = 'fa-solid fa-circle-info text-cyan-400';
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        };
+
+        function escapeHtml(str) {
+            return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+    </script>
+</body>
+</html>
