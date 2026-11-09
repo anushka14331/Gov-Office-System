@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>වාරිමාර්ග දෙපාර්තමේන්තුව - Schedule Sheet පද්ධතිය</title>
+    <title>මධ්‍යම පළාත් වාරිමාර්ග දෙපාර්තමේන්තුව - Schedule Sheet පද්ධතිය</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -68,9 +68,9 @@
         }
     </style>
 </head>
-<body class="h-full flex flex-col min-h-screen">
+<body class="h-full flex flex-col min-h-screen text-slate-800">
 
-    <!-- Loading Overlay (Auth Checking) -->
+    <!-- Loading Overlay -->
     <div id="auth-loading" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900 text-white">
         <div class="text-center">
             <i class="fa-solid fa-spinner fa-spin text-3xl text-sky-400 mb-3"></i>
@@ -107,9 +107,9 @@
         </header>
 
         <!-- Printable Schedule Sheet Body -->
-        <main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 print-clean-card">
+        <main class="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-6 print-clean-card">
             
-            <div class="bg-white rounded-xl shadow-md border border-slate-200 p-6 sm:p-8 print-clean-card">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 print-clean-card">
                 
                 <!-- Print Header -->
                 <div class="text-center pb-4 mb-4 border-b border-slate-300">
@@ -120,17 +120,17 @@
                 <!-- Metadata Row -->
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 text-xs text-slate-700">
                     <div class="flex items-center gap-2">
-                        <span class="font-semibold font-sinhala">දිනය:</span>
-                        <input type="date" id="doc-date" class="border border-slate-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-sky-500 outline-none">
+                        <span class="font-semibold font-sinhala whitespace-nowrap">දිනය:</span>
+                        <input type="date" id="doc-date" class="w-full border border-slate-300 rounded px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-sky-500 outline-none">
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="font-semibold font-sinhala">වැය ශීර්ෂය:</span>
-                        <input type="text" id="vote-head" class="border border-slate-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-sky-500 outline-none w-full" placeholder="උදා: 755-01-02">
+                        <span class="font-semibold font-sinhala whitespace-nowrap">වැය ශීර්ෂය:</span>
+                        <input type="text" id="vote-head" class="w-full border border-slate-300 rounded px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-sky-500 outline-none" placeholder="උදා: 755-01-02">
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="font-semibold font-sinhala">පරිශීලකයා:</span>
-                        <!-- Default empty field -->
-                        <input type="text" id="doc-user" class="border border-slate-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-sky-500 outline-none w-full" placeholder="පරිශීලක නම ඇතුළත් කරන්න">
+                        <span class="font-semibold font-sinhala whitespace-nowrap">පරිශීලකයා:</span>
+                        <!-- Default empty -->
+                        <input type="text" id="doc-user" class="w-full border border-slate-300 rounded px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-sky-500 outline-none" placeholder="පරිශීලක නම ඇතුළත් කරන්න">
                     </div>
                 </div>
 
@@ -140,29 +140,31 @@
                         <thead>
                             <tr class="bg-slate-100 print-border-b text-slate-800 font-semibold font-sinhala">
                                 <th class="border border-slate-300 p-2 text-center w-12">අංකය</th>
-                                <th class="border border-slate-300 p-2">වවුචර් අංකය</th>
+                                <th class="border border-slate-300 p-2 w-28">වවුචර් අංකය</th>
                                 <th class="border border-slate-300 p-2">ගෙවීමේ විස්තරය</th>
                                 <th class="border border-slate-300 p-2">නම / ආයතනය</th>
-                                <th class="border border-slate-300 p-2 text-right w-32">මුදල (රු.)</th>
+                                <th class="border border-slate-300 p-2 text-right w-36">මුදල (රු.)</th>
                                 <th class="border border-slate-300 p-1 text-center w-10 no-print"></th>
                             </tr>
                         </thead>
                         <tbody id="schedule-tbody">
                             <tr>
                                 <td class="border border-slate-300 p-2 text-center font-mono row-index">1</td>
-                                <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1 border-none outline-none text-xs" placeholder="V-001"></td>
-                                <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1 border-none outline-none text-xs" placeholder="විස්තරය"></td>
-                                <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1 border-none outline-none text-xs" placeholder="නම"></td>
-                                <td class="border border-slate-300 p-1"><input type="number" step="0.01" oninput="calculateTotal()" class="amount-input w-full p-1 border-none outline-none text-right text-xs" placeholder="0.00"></td>
+                                <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1.5 border border-transparent hover:border-slate-300 focus:border-sky-500 rounded outline-none text-xs" placeholder="V-001"></td>
+                                <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1.5 border border-transparent hover:border-slate-300 focus:border-sky-500 rounded outline-none text-xs" placeholder="ගෙවීමේ විස්තරය"></td>
+                                <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1.5 border border-transparent hover:border-slate-300 focus:border-sky-500 rounded outline-none text-xs" placeholder="නම හෝ ආයතනය"></td>
+                                <td class="border border-slate-300 p-1"><input type="number" step="0.01" oninput="calculateTotal()" class="amount-input w-full p-1.5 border border-transparent hover:border-slate-300 focus:border-sky-500 rounded outline-none text-right font-mono text-xs" placeholder="0.00"></td>
                                 <td class="border border-slate-300 p-1 text-center no-print">
-                                    <button onclick="removeRow(this)" class="text-rose-500 hover:text-rose-700 text-xs cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
+                                    <button onclick="removeRow(this)" class="p-1 text-rose-500 hover:text-rose-700 transition cursor-pointer" title="පේළිය ඉවත් කරන්න">
+                                        <i class="fa-solid fa-trash-can text-xs"></i>
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr class="bg-slate-50 font-bold">
-                                <td colspan="4" class="border border-slate-300 p-2 text-right font-sinhala text-sm">මුළු එකතුව (Total):</td>
-                                <td id="grand-total" class="border border-slate-300 p-2 text-right font-mono text-sm text-sky-900">0.00</td>
+                                <td colspan="4" class="border border-slate-300 p-2.5 text-right font-sinhala text-sm text-slate-800">මුළු එකතුව (Total):</td>
+                                <td id="grand-total" class="border border-slate-300 p-2.5 text-right font-mono text-sm text-sky-900">0.00</td>
                                 <td class="border border-slate-300 no-print"></td>
                             </tr>
                         </tfoot>
@@ -171,7 +173,7 @@
 
                 <!-- Add Row Button (no-print) -->
                 <div class="no-print mb-8">
-                    <button onclick="addRow()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold transition border border-slate-300 flex items-center gap-1.5 cursor-pointer">
+                    <button onclick="addRow()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold transition border border-slate-300 flex items-center gap-2 cursor-pointer shadow-xs">
                         <i class="fa-solid fa-plus text-xs"></i> පේළියක් එක් කරන්න (Add Row)
                     </button>
                 </div>
@@ -179,23 +181,23 @@
                 <!-- Signatures Section -->
                 <div class="grid grid-cols-3 gap-6 pt-10 text-center text-xs font-sinhala">
                     <div>
-                        <div class="border-b border-slate-400 pb-1 mb-1"></div>
+                        <div class="border-b border-slate-400 pb-1 mb-1.5"></div>
                         <p class="font-semibold text-slate-800">සකස් කළේ</p>
                         <p class="text-[10px] text-slate-500">විෂය භාර නිලධාරී</p>
                     </div>
                     <div>
-                        <div class="border-b border-slate-400 pb-1 mb-1"></div>
+                        <div class="border-b border-slate-400 pb-1 mb-1.5"></div>
                         <p class="font-semibold text-slate-800">පරීක්ෂා කළේ</p>
                         <p class="text-[10px] text-slate-500">ගණකාධිකාරී / සහකාර ගණකාධිකාරී</p>
                     </div>
                     <div>
-                        <div class="border-b border-slate-400 pb-1 mb-1"></div>
+                        <div class="border-b border-slate-400 pb-1 mb-1.5"></div>
                         <p class="font-semibold text-slate-800">අනුමත කළේ</p>
                         <p class="text-[10px] text-slate-500">පළාත් වාරිමාර්ග අධ්‍යක්ෂ</p>
                     </div>
                 </div>
 
-                <!-- Single-Line Print Footer (Fixed for Single Line Alignment) -->
+                <!-- Single-Line Print Footer (Fixed Single Line) -->
                 <div class="print-footer-signature mt-8 text-center text-[11px] text-slate-400 tracking-wider">
                     Software Developed by Anushka Nawarathna
                 </div>
@@ -214,12 +216,14 @@
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td class="border border-slate-300 p-2 text-center font-mono row-index">${rowCount}</td>
-                <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1 border-none outline-none text-xs" placeholder="V-00${rowCount}"></td>
-                <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1 border-none outline-none text-xs" placeholder="විස්තරය"></td>
-                <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1 border-none outline-none text-xs" placeholder="නම"></td>
-                <td class="border border-slate-300 p-1"><input type="number" step="0.01" oninput="calculateTotal()" class="amount-input w-full p-1 border-none outline-none text-right text-xs" placeholder="0.00"></td>
+                <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1.5 border border-transparent hover:border-slate-300 focus:border-sky-500 rounded outline-none text-xs" placeholder="V-00${rowCount}"></td>
+                <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1.5 border border-transparent hover:border-slate-300 focus:border-sky-500 rounded outline-none text-xs" placeholder="ගෙවීමේ විස්තරය"></td>
+                <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1.5 border border-transparent hover:border-slate-300 focus:border-sky-500 rounded outline-none text-xs" placeholder="නම හෝ ආයතනය"></td>
+                <td class="border border-slate-300 p-1"><input type="number" step="0.01" oninput="calculateTotal()" class="amount-input w-full p-1.5 border border-transparent hover:border-slate-300 focus:border-sky-500 rounded outline-none text-right font-mono text-xs" placeholder="0.00"></td>
                 <td class="border border-slate-300 p-1 text-center no-print">
-                    <button onclick="removeRow(this)" class="text-rose-500 hover:text-rose-700 text-xs cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
+                    <button onclick="removeRow(this)" class="p-1 text-rose-500 hover:text-rose-700 transition cursor-pointer" title="පේළිය ඉවත් කරන්න">
+                        <i class="fa-solid fa-trash-can text-xs"></i>
+                    </button>
                 </td>
             `;
             tbody.appendChild(tr);
@@ -259,7 +263,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        // Verified Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyA-QjAG38lQHIQjdD5diSDke1TD1DUEzms",
             authDomain: "anushka-gove-system.firebaseapp.com",
@@ -277,13 +280,11 @@
         const appContainer = document.getElementById('app-container');
         const userDisplay = document.getElementById('current-logged-user');
 
-        // Sign Out Event
         document.getElementById('sub-signout-btn').addEventListener('click', async () => {
             await signOut(auth);
             window.location.href = '../index.html';
         });
 
-        // Auth Monitor: Log වී නොමැති නම් ප්‍රධාන index.html වෙත redirect කරයි
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 loading.classList.add('hidden');
