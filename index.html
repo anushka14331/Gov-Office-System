@@ -63,6 +63,10 @@
                 appearance: none !important;
                 -webkit-appearance: none !important;
             }
+            .voucher-handwrite-box {
+                border: 1.5px solid #1e293b !important;
+                background: white !important;
+            }
             .table-border-print th, .table-border-print td {
                 border: 1px solid #333 !important;
                 padding: 5px 8px !important;
@@ -108,29 +112,38 @@
                         <span class="text-cyan-200 block text-[10px] uppercase font-bold">පරිශීලකයා</span>
                         <span id="currentUserDisplay" class="font-bold text-white cursor-pointer hover:underline" onclick="changeCurrentUser()" title="පරිශීලක නම වෙනස් කරන්න">Anushaka Nawarathna</span>
                     </div>
-                    <button onclick="changeCurrentUser()" class="ml-1 text-xs text-cyan-300 hover:text-white" title="වෙනස් කරන්න">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </button>
                 </div>
+
+                <!-- Report Center Button -->
+                <button onclick="openReportCenter()" class="px-3 py-2 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer">
+                    <i class="fa-solid fa-chart-pie text-xs"></i> <span>Report Center</span>
+                </button>
 
                 <button onclick="openMasterModal()" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-list-check text-xs"></i> <span>Master Data</span>
                 </button>
+
+                <button onclick="startNewSheet()" class="px-3 py-2 bg-slate-600 hover:bg-slate-500 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer" title="නව හිස් Schedule Sheet එකක් අරඹන්න">
+                    <i class="fa-solid fa-file-circle-plus text-xs"></i> <span>නව පත්‍රයක්</span>
+                </button>
+
                 <button onclick="addNewRow()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-plus text-xs"></i> <span>පේළියක්</span>
                 </button>
-                <button onclick="saveToLocalStorage()" class="px-3 py-2 bg-cyan-700 hover:bg-cyan-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer">
-                    <i class="fa-solid fa-floppy-disk text-xs"></i> <span>සුරකින්න</span>
+
+                <button onclick="saveScheduleToArchive()" class="px-3 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer">
+                    <i class="fa-solid fa-floppy-disk text-xs"></i> <span id="saveBtnLabel">සුරකින්න</span>
                 </button>
+
                 <button onclick="exportToCSV()" class="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-file-excel text-xs"></i> <span>CSV</span>
                 </button>
 
                 <!-- Encrypted Backup & Restore Buttons -->
-                <button onclick="exportEncryptedBackup()" class="px-3 py-2 bg-teal-700 hover:bg-teal-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer" title="දත්ත Encrypt කර Backup ගොනුවක් බාගත කරන්න">
+                <button onclick="exportEncryptedBackup()" class="px-3 py-2 bg-teal-700 hover:bg-teal-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer" title="සියලුම වාර්තා සහ Master Data Encrypt කර Backup ගොනුවක් බාගත කරන්න">
                     <i class="fa-solid fa-shield-halved text-xs"></i> <span>Backup</span>
                 </button>
-                <button onclick="triggerRestoreInput()" class="px-3 py-2 bg-purple-700 hover:bg-purple-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer" title="Encrypted Backup ගොනුවක් තෝරා දත්ත Decrypt කර Restore කරන්න">
+                <button onclick="triggerRestoreInput()" class="px-3 py-2 bg-purple-700 hover:bg-purple-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer" title="Encrypted Backup ගොනුවක් තෝරා Restore කරන්න">
                     <i class="fa-solid fa-rotate-left text-xs"></i> <span>Restore</span>
                 </button>
                 <input type="file" id="restoreFileInput" accept=".enc" class="hidden" onchange="handleRestoreFile(event)">
@@ -138,9 +151,7 @@
                 <button onclick="triggerPrint()" class="px-3 py-2 bg-amber-600 hover:bg-amber-500 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-print text-xs"></i> <span>මුද්‍රණය</span>
                 </button>
-                <button onclick="clearAllData()" class="px-3 py-2 bg-rose-700 hover:bg-rose-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer">
-                    <i class="fa-solid fa-trash-can text-xs"></i> <span>මකන්න</span>
-                </button>
+
                 <button id="sub-signout-btn" class="px-2.5 py-2 bg-slate-800 hover:bg-rose-900/80 text-rose-300 hover:text-white rounded-lg text-xs transition border border-rose-900/50 cursor-pointer" title="Sign Out">
                     <i class="fa-solid fa-right-from-bracket"></i>
                 </button>
@@ -158,26 +169,45 @@
 
     <!-- Main Container -->
     <main class="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <!-- Active Edit Mode Banner (Shown only when editing a saved sheet) -->
+        <div id="editModeBanner" class="hidden no-print mb-4 bg-amber-50 border border-amber-300 text-amber-900 px-4 py-2.5 rounded-xl flex items-center justify-between text-xs shadow-sm">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-pen-to-square text-amber-600 text-sm"></i>
+                <span>ඔබ දැනට පෙර සුරකින ලද ලේඛනයක් සංස්කරණය කරමින් සිටී (<strong id="editingSheetMeta"></strong>). වෙනස්කම් තහවුරු කිරීමට <strong>"යාවත්කාලීන කරන්න"</strong> ඔබන්න.</span>
+            </div>
+            <button onclick="startNewSheet()" class="px-2.5 py-1 bg-amber-200 hover:bg-amber-300 text-amber-950 font-semibold rounded-lg transition cursor-pointer">නව පත්‍රයකට යන්න</button>
+        </div>
+
         <div class="page-container bg-white rounded-2xl shadow-xl border border-slate-200/80 p-6 sm:p-10 transition-all">
             
             <!-- Official Document Header -->
             <div class="border-b-2 border-irrigation-800 pb-6 mb-6">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
                         <span class="inline-block px-3 py-1 bg-irrigation-50 text-irrigation-800 text-xs font-semibold rounded-full border border-irrigation-200 mb-2 no-print">රාජකාරි ලේඛනය</span>
                         <h2 class="text-2xl sm:text-3xl font-bold font-sinhala text-slate-900">මධ්‍යම පළාත් වාරිමාර්ග දෙපාර්තමේන්තුව</h2>
                         <h3 class="text-lg font-semibold text-irrigation-800 tracking-wide font-sans">SCHEDULE SHEET</h3>
                     </div>
-                    <div class="text-right sm:text-right w-full sm:w-auto">
-                        <div class="inline-block p-3 bg-slate-50 border border-slate-200 rounded-xl">
+
+                    <!-- Right Header Boxes: Voucher No Box (Left) + Document Type Box (Right) -->
+                    <div class="flex flex-wrap items-stretch gap-3 w-full md:w-auto justify-end">
+                        <!-- Large Blank Box for Handwritten Voucher No -->
+                        <div class="voucher-handwrite-box flex-1 sm:flex-initial min-w-[200px] sm:min-w-[220px] p-3 bg-white border-2 border-slate-400 rounded-xl flex flex-col justify-between">
+                            <span class="text-[11px] font-bold text-slate-600 font-sinhala block">වවුචර අංකය (Voucher No):</span>
+                            <div class="h-7"></div>
+                        </div>
+
+                        <!-- Document Type Box -->
+                        <div class="p-3 bg-slate-50 border border-slate-300 rounded-xl flex flex-col justify-center text-right">
                             <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block font-sinhala">ලේඛන වර්ගය</span>
-                            <span class="text-sm font-bold text-slate-700 font-sinhala">ගෙවීම්/වියදම් සටහන</span>
+                            <span class="text-sm font-bold text-slate-700 font-sinhala mt-0.5">ගෙවීම්/වියදම් සටහන</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Form Meta Controls (Header Fields) -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 bg-slate-50/80 p-4 rounded-xl border border-slate-200/60">
+                <!-- Form Meta Controls (2 Columns: Expenditure Head & Date) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 bg-slate-50/80 p-4 rounded-xl border border-slate-200/60">
                     <div>
                         <label for="expenditureHeadSelect" class="block text-xs font-bold text-slate-700 mb-1 font-sinhala">
                             වැය ශීර්ෂය (Expenditure Head):
@@ -185,14 +215,10 @@
                         <div class="flex gap-2">
                             <select id="expenditureHeadSelect" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-irrigation-500 transition">
                             </select>
-                            <button type="button" onclick="openMasterModal('expenditure')" class="no-print px-2.5 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs" title="නව වැය ශීර්ෂයක් එකතු කරන්න">
+                            <button type="button" onclick="openMasterModal('expenditure')" class="no-print px-2.5 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs cursor-pointer" title="නව වැය ශීර්ෂයක් එකතු කරන්න">
                                 <i class="fa-solid fa-plus"></i>
                             </button>
                         </div>
-                    </div>
-                    <div>
-                        <label for="voucherNo" class="block text-xs font-bold text-slate-700 mb-1 font-sinhala">වවුචර අංකය (Voucher No):</label>
-                        <input type="text" id="voucherNo" placeholder="උදා: VR-2026-089" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-irrigation-500 transition">
                     </div>
                     <div>
                         <label for="sheetDate" class="block text-xs font-bold text-slate-700 mb-1 font-sinhala">දිනය (Date):</label>
@@ -247,12 +273,11 @@
                 </div>
             </div>
 
-            <!-- Signatures Section (Updated: Prepared by, Checked by, Expenditure Certifying Officer - Name-free for manual signing) -->
+            <!-- Signatures Section -->
             <div class="mt-12 pt-8 border-t border-slate-300">
                 <h4 class="text-xs uppercase font-bold text-slate-400 tracking-wider mb-8 font-sinhala no-print">තහවුරු කිරීම් (Signatures)</h4>
                 
                 <div class="grid grid-cols-3 gap-6 text-center font-sinhala text-sm max-w-4xl mx-auto items-start">
-                    
                     <!-- Column 1: Prepared By -->
                     <div class="flex flex-col items-center">
                         <div class="w-full border-b border-slate-400 border-dashed mb-2 h-16"></div>
@@ -285,10 +310,9 @@
                             <p class="text-[11px] text-slate-500 font-sans">(Expenditure Certifying Officer)</p>
                         </div>
                     </div>
-
                 </div>
 
-                <!-- Developer Attribution (Single Line Bottom Signature) -->
+                <!-- Developer Attribution -->
                 <div class="mt-10 pt-3 border-t border-slate-200/60 text-center w-full">
                     <p class="text-[10px] text-slate-400 font-sans tracking-wide whitespace-nowrap">
                         Software Developed by Anushka Nawarathna
@@ -298,6 +322,138 @@
 
         </div>
     </main>
+
+    <!-- ========================================== -->
+    <!-- REPORT CENTER MODAL (No Print)             -->
+    <!-- ========================================== -->
+    <div id="reportCenterModal" class="fixed inset-0 bg-slate-900/75 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-6 hidden no-print">
+        <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-5xl w-full flex flex-col max-h-[92vh] overflow-hidden">
+            
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-irrigation-900 to-irrigation-800 text-white px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center text-cyan-300 text-lg">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold font-sinhala">Report Center - වාර්තා සහ ලේඛන මධ්‍යස්ථානය</h3>
+                        <p class="text-[11px] text-cyan-200">Schedule Sheets History & Expenditure Analytics</p>
+                    </div>
+                </div>
+                <button onclick="closeReportCenter()" class="text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-lg p-2 transition cursor-pointer">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Report Navigation Tabs -->
+            <div class="bg-slate-50 border-b border-slate-200 px-6 flex flex-wrap gap-2 pt-3">
+                <button id="rcTabSheets" onclick="switchReportTab('sheets')" class="px-4 py-2.5 text-xs sm:text-sm font-bold border-b-2 border-irrigation-800 text-irrigation-900 bg-white rounded-t-lg font-sinhala cursor-pointer flex items-center gap-2">
+                    <i class="fa-solid fa-folder-open text-sky-600"></i>
+                    <span>සුරකින ලද Schedule Sheets (Saved History)</span>
+                </button>
+                <button id="rcTabPayees" onclick="switchReportTab('payees')" class="px-4 py-2.5 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 font-sinhala cursor-pointer flex items-center gap-2">
+                    <i class="fa-solid fa-users-viewfinder text-emerald-600"></i>
+                    <span>නම / විස්තර අනුව වියදම් වාර්තාව (Payee Expense Summary)</span>
+                </button>
+            </div>
+
+            <!-- TAB 1: SAVED SCHEDULE SHEETS LIST & DAILY FILTER -->
+            <div id="rcContentSheets" class="p-6 overflow-y-auto flex-1 space-y-5">
+                
+                <!-- Filter & Daily Stats Bar -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1 font-sinhala">දිනය අනුව පෙරන්න (Filter by Date):</label>
+                        <div class="flex gap-1.5">
+                            <input type="date" id="rcFilterDate" onchange="renderReportSheets()" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs outline-none focus:ring-2 focus:ring-sky-500">
+                            <button onclick="clearDateFilter()" class="px-2.5 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs font-semibold cursor-pointer" title="සියලුම දින පෙන්වන්න">All</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1 font-sinhala">වැය ශීර්ෂය (Expenditure Head):</label>
+                        <select id="rcFilterHead" onchange="renderReportSheets()" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs outline-none focus:ring-2 focus:ring-sky-500">
+                            <option value="">-- සියලුම වැය ශීර්ෂ --</option>
+                        </select>
+                    </div>
+
+                    <div class="bg-white p-3 rounded-lg border border-sky-200 flex flex-col justify-center">
+                        <span class="text-[11px] text-slate-500 font-sinhala">තෝරාගත් Schedule Sheets ගණන</span>
+                        <span id="rcTotalSheetCount" class="text-lg font-bold text-sky-900">0</span>
+                    </div>
+
+                    <div class="bg-white p-3 rounded-lg border border-emerald-200 flex flex-col justify-center">
+                        <span class="text-[11px] text-slate-500 font-sinhala">මුළු වියදම් එකතුව (Total Amount)</span>
+                        <span id="rcTotalSheetSum" class="text-lg font-bold text-emerald-700 font-mono">Rs. 0.00</span>
+                    </div>
+                </div>
+
+                <!-- Saved Sheets Table -->
+                <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 font-bold font-sinhala border-b border-slate-200">
+                                <th class="p-3 w-12 text-center">#</th>
+                                <th class="p-3">දිනය (Date)</th>
+                                <th class="p-3">වැය ශීර්ෂය (Expenditure Head)</th>
+                                <th class="p-3 text-center">අයිතම ගණන</th>
+                                <th class="p-3 text-right">මුළු මුදල (LKR)</th>
+                                <th class="p-3 text-center">ක්‍රියාමාර්ග (Actions)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rcSheetsTableBody" class="divide-y divide-slate-200 bg-white">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 2: PAYEE / MASTER NAMES EXPENSE REPORT -->
+            <div id="rcContentPayees" class="p-6 overflow-y-auto flex-1 space-y-5 hidden">
+                
+                <!-- Search & Filter Bar -->
+                <div class="flex flex-col sm:flex-row gap-3 justify-between items-center bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <div class="w-full sm:w-80 relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                        <input type="text" id="rcPayeeSearch" oninput="renderPayeeSummaryReport()" placeholder="නම හෝ විස්තරය සොයන්න..." class="w-full pl-8 pr-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+
+                    <div class="flex items-center gap-4 text-xs">
+                        <div class="bg-white px-4 py-2 rounded-lg border border-emerald-200">
+                            <span class="text-slate-500 font-sinhala">සමස්ත ගෙවීම් එකතුව: </span>
+                            <strong id="rcPayeeGrandTotal" class="text-emerald-800 font-mono text-sm">Rs. 0.00</strong>
+                        </div>
+                        <button onclick="exportPayeeReportCSV()" class="px-3 py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-lg font-semibold flex items-center gap-1.5 cursor-pointer">
+                            <i class="fa-solid fa-file-csv"></i> <span>Export CSV</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Payee Summary Table -->
+                <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 font-bold font-sinhala border-b border-slate-200">
+                                <th class="p-3 w-12 text-center">#</th>
+                                <th class="p-3">නම / විස්තරය (Name / Particulars)</th>
+                                <th class="p-3 text-center">Master File තත්ත්වය</th>
+                                <th class="p-3 text-center">ගෙවීම් වාර ගණන (Count)</th>
+                                <th class="p-3 text-right">මුළු වියදම් මුදල (Total Spent LKR)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rcPayeesTableBody" class="divide-y divide-slate-200 bg-white">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="bg-slate-50 border-t border-slate-200 px-6 py-3 flex justify-end">
+                <button onclick="closeReportCenter()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg text-xs font-semibold font-sinhala cursor-pointer">
+                    වසා දමන්න (Close)
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Master Data Management Modal (No Print) -->
     <div id="masterModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden no-print">
@@ -401,9 +557,10 @@
         });
     </script>
 
-    <!-- JavaScript Application Logic -->
+    <!-- JavaScript Application Logic & Report Center -->
     <script>
         window.currentUserName = "Anushaka Nawarathna";
+        window.currentEditingSheetId = null; // Tracks if editing an existing saved sheet
 
         window.masterExpenditureHeads = [
             "450-01-01 (පරිපාලන වියදම්)",
@@ -426,6 +583,9 @@
             { id: 3, name: "", amount: "" }
         ];
 
+        // Archive array storing all saved schedule sheets
+        window.savedSheetsArchive = [];
+
         window.initScheduleApp = function() {
             const dateInput = document.getElementById('sheetDate');
             if (dateInput && !dateInput.value) {
@@ -434,7 +594,8 @@
 
             loadUserData();
             loadMasterData();
-            loadFromLocalStorage();
+            loadSavedArchive();
+            loadDraftState();
 
             renderExpenditureDropdown();
             renderDatalist();
@@ -463,9 +624,7 @@
 
         function loadUserData() {
             const savedUser = localStorage.getItem('irrigation_current_user');
-            if (savedUser) {
-                window.currentUserName = savedUser;
-            }
+            if (savedUser) window.currentUserName = savedUser;
         }
 
         window.renderExpenditureDropdown = function(selectedVal = '') {
@@ -502,10 +661,7 @@
         function formatCurrencyDisplay(val) {
             const num = parseFloat(val);
             if (isNaN(num)) return '';
-            return num.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            });
+            return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
         window.renderTable = function() {
@@ -581,6 +737,7 @@
                 window.scheduleItems[index].name = value;
             }
             window.calculateTotal();
+            saveDraftState();
         };
 
         window.handleAmountFocus = function(index) {
@@ -599,6 +756,7 @@
                 window.scheduleItems[index].amount = cleanVal;
                 input.value = formatCurrencyDisplay(cleanVal);
                 window.calculateTotal();
+                saveDraftState();
             }
         };
 
@@ -622,9 +780,7 @@
 
                 setTimeout(() => {
                     const nextNameInput = document.getElementById(`nameInput_${index + 1}`);
-                    if (nextNameInput) {
-                        nextNameInput.focus();
-                    }
+                    if (nextNameInput) nextNameInput.focus();
                 }, 50);
             }
         };
@@ -644,6 +800,7 @@
                 window.scheduleItems.push({ id: Date.now(), name: '', amount: '' });
             }
             window.renderTable();
+            saveDraftState();
             window.showToast('පේළිය ඉවත් කරන ලදී', 'info');
         };
 
@@ -662,8 +819,410 @@
             if (totalAmountEl) totalAmountEl.innerText = formattedTotal;
             if (grandTotalLabelEl) grandTotalLabelEl.innerText = formattedTotal;
             if (rowCountLabelEl) rowCountLabelEl.innerText = window.scheduleItems.length;
+            return total;
         };
 
+        // ==========================================
+        // ARCHIVE & MULTI-SHEET SAVING LOGIC
+        // ==========================================
+        function loadSavedArchive() {
+            const raw = localStorage.getItem('irrigation_saved_sheets_archive');
+            if (raw) {
+                try {
+                    window.savedSheetsArchive = JSON.parse(raw);
+                } catch (e) {
+                    window.savedSheetsArchive = [];
+                }
+            }
+        }
+
+        function persistArchive() {
+            localStorage.setItem('irrigation_saved_sheets_archive', JSON.stringify(window.savedSheetsArchive));
+        }
+
+        function saveDraftState() {
+            localStorage.setItem('irrigation_schedule_draft', JSON.stringify({
+                expenditureHead: document.getElementById('expenditureHeadSelect').value,
+                sheetDate: document.getElementById('sheetDate').value,
+                items: window.scheduleItems
+            }));
+        }
+
+        function loadDraftState() {
+            const saved = localStorage.getItem('irrigation_schedule_draft');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    if (parsed.expenditureHead) window.renderExpenditureDropdown(parsed.expenditureHead);
+                    if (parsed.sheetDate) document.getElementById('sheetDate').value = parsed.sheetDate;
+                    if (Array.isArray(parsed.items) && parsed.items.length > 0) window.scheduleItems = parsed.items;
+                } catch (e) {}
+            }
+        }
+
+        window.saveScheduleToArchive = function() {
+            const expHead = document.getElementById('expenditureHeadSelect').value;
+            const sDate = document.getElementById('sheetDate').value;
+
+            // Filter out completely empty rows
+            const validItems = window.scheduleItems.filter(it => (it.name && it.name.trim() !== '') || (it.amount && parseFloat(it.amount) > 0));
+
+            if (validItems.length === 0) {
+                window.showToast('සුරැකීමට අවම වශයෙන් එක් අයිතමයක්වත් ඇතුළත් කරන්න!', 'error');
+                return;
+            }
+
+            const totalAmt = validItems.reduce((sum, it) => sum + (parseFloat(it.amount) || 0), 0);
+            saveMasterData();
+
+            if (window.currentEditingSheetId) {
+                // Update existing record
+                const idx = window.savedSheetsArchive.findIndex(s => s.id === window.currentEditingSheetId);
+                if (idx !== -1) {
+                    window.savedSheetsArchive[idx] = {
+                        ...window.savedSheetsArchive[idx],
+                        expenditureHead: expHead || 'සඳහන් කර නැත',
+                        sheetDate: sDate,
+                        items: JSON.parse(JSON.stringify(validItems)),
+                        totalAmount: totalAmt,
+                        updatedAt: new Date().toISOString()
+                    };
+                    persistArchive();
+                    window.showToast('ලේඛනය සාර්ථකව යාවත්කාලීන කරන ලදී!', 'success');
+                }
+            } else {
+                // Create new record in archive
+                const newSheet = {
+                    id: 'SH_' + Date.now(),
+                    expenditureHead: expHead || 'සඳහන් කර නැත',
+                    sheetDate: sDate,
+                    items: JSON.parse(JSON.stringify(validItems)),
+                    totalAmount: totalAmt,
+                    createdBy: window.currentUserName,
+                    createdAt: new Date().toISOString()
+                };
+                window.savedSheetsArchive.unshift(newSheet);
+                window.currentEditingSheetId = newSheet.id;
+                persistArchive();
+                updateEditModeUI();
+                window.showToast('Schedule Sheet එක Report Center වෙත සුරකින ලදී!', 'success');
+            }
+            saveDraftState();
+        };
+
+        window.startNewSheet = function() {
+            window.currentEditingSheetId = null;
+            window.scheduleItems = [
+                { id: 1, name: "", amount: "" },
+                { id: 2, name: "", amount: "" },
+                { id: 3, name: "", amount: "" }
+            ];
+            document.getElementById('expenditureHeadSelect').value = '';
+            document.getElementById('sheetDate').value = new Date().toISOString().split('T')[0];
+            localStorage.removeItem('irrigation_schedule_draft');
+            window.renderTable();
+            updateEditModeUI();
+            window.showToast('නව හිස් Schedule Sheet එකක් සූදානම් කරන ලදී', 'info');
+        };
+
+        function updateEditModeUI() {
+            const banner = document.getElementById('editModeBanner');
+            const metaText = document.getElementById('editingSheetMeta');
+            const saveLabel = document.getElementById('saveBtnLabel');
+
+            if (window.currentEditingSheetId) {
+                const sheet = window.savedSheetsArchive.find(s => s.id === window.currentEditingSheetId);
+                if (sheet && banner && metaText) {
+                    banner.classList.remove('hidden');
+                    metaText.innerText = `${sheet.sheetDate} | ${sheet.expenditureHead}`;
+                }
+                if (saveLabel) saveLabel.innerText = 'යාවත්කාලීන කරන්න';
+            } else {
+                if (banner) banner.classList.add('hidden');
+                if (saveLabel) saveLabel.innerText = 'සුරකින්න';
+            }
+        }
+
+        // ==========================================
+        // REPORT CENTER FUNCTIONS
+        // ==========================================
+        window.openReportCenter = function() {
+            const modal = document.getElementById('reportCenterModal');
+            if (!modal) return;
+            modal.classList.remove('hidden');
+
+            // Populate Expenditure Head filter dropdown
+            const filterSelect = document.getElementById('rcFilterHead');
+            if (filterSelect) {
+                filterSelect.innerHTML = '<option value="">-- සියලුම වැය ශීර්ෂ --</option>';
+                window.masterExpenditureHeads.forEach(h => {
+                    const opt = document.createElement('option');
+                    opt.value = h;
+                    opt.innerText = h;
+                    filterSelect.appendChild(opt);
+                });
+            }
+
+            window.switchReportTab('sheets');
+            window.renderReportSheets();
+            window.renderPayeeSummaryReport();
+        };
+
+        window.closeReportCenter = function() {
+            const modal = document.getElementById('reportCenterModal');
+            if (modal) modal.classList.add('hidden');
+        };
+
+        window.switchReportTab = function(tab) {
+            const tabSheets = document.getElementById('rcTabSheets');
+            const tabPayees = document.getElementById('rcTabPayees');
+            const contentSheets = document.getElementById('rcContentSheets');
+            const contentPayees = document.getElementById('rcContentPayees');
+
+            if (tab === 'sheets') {
+                tabSheets.className = "px-4 py-2.5 text-xs sm:text-sm font-bold border-b-2 border-irrigation-800 text-irrigation-900 bg-white rounded-t-lg font-sinhala cursor-pointer flex items-center gap-2";
+                tabPayees.className = "px-4 py-2.5 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 font-sinhala cursor-pointer flex items-center gap-2";
+                contentSheets.classList.remove('hidden');
+                contentPayees.classList.add('hidden');
+            } else {
+                tabPayees.className = "px-4 py-2.5 text-xs sm:text-sm font-bold border-b-2 border-emerald-700 text-emerald-900 bg-white rounded-t-lg font-sinhala cursor-pointer flex items-center gap-2";
+                tabSheets.className = "px-4 py-2.5 text-xs sm:text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 font-sinhala cursor-pointer flex items-center gap-2";
+                contentPayees.classList.remove('hidden');
+                contentSheets.classList.add('hidden');
+                window.renderPayeeSummaryReport();
+            }
+        };
+
+        window.clearDateFilter = function() {
+            const dateFilter = document.getElementById('rcFilterDate');
+            if (dateFilter) dateFilter.value = '';
+            window.renderReportSheets();
+        };
+
+        window.renderReportSheets = function() {
+            const tbody = document.getElementById('rcSheetsTableBody');
+            if (!tbody) return;
+
+            const filterDate = document.getElementById('rcFilterDate')?.value || '';
+            const filterHead = document.getElementById('rcFilterHead')?.value || '';
+
+            const filtered = window.savedSheetsArchive.filter(sheet => {
+                const matchDate = !filterDate || sheet.sheetDate === filterDate;
+                const matchHead = !filterHead || sheet.expenditureHead === filterHead;
+                return matchDate && matchHead;
+            });
+
+            // Update Summary KPIs
+            const countEl = document.getElementById('rcTotalSheetCount');
+            const sumEl = document.getElementById('rcTotalSheetSum');
+            const totalSum = filtered.reduce((acc, s) => acc + (parseFloat(s.totalAmount) || 0), 0);
+
+            if (countEl) countEl.innerText = `${filtered.length} Sheets`;
+            if (sumEl) sumEl.innerText = 'Rs. ' + totalSum.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="p-8 text-center text-slate-400 font-sinhala">
+                            තෝරාගත් සෙවුමට අදාළව සුරකින ලද Schedule Sheets කිසිවක් හමු නොවීය.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = '';
+            filtered.forEach((sheet, idx) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition';
+                const amtStr = (parseFloat(sheet.totalAmount) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                tr.innerHTML = `
+                    <td class="p-3 text-center font-mono text-slate-500">${idx + 1}</td>
+                    <td class="p-3 font-semibold text-slate-800 whitespace-nowrap">${escapeHtml(sheet.sheetDate || 'N/A')}</td>
+                    <td class="p-3 text-slate-700 font-sinhala">${escapeHtml(sheet.expenditureHead || 'N/A')}</td>
+                    <td class="p-3 text-center"><span class="bg-sky-50 text-sky-800 border border-sky-200 px-2 py-0.5 rounded-full font-semibold">${sheet.items ? sheet.items.length : 0}</span></td>
+                    <td class="p-3 text-right font-mono font-bold text-slate-900">Rs. ${amtStr}</td>
+                    <td class="p-3 text-center whitespace-nowrap">
+                        <div class="inline-flex items-center gap-1.5">
+                            <button onclick="loadSheetFromArchive('${sheet.id}', false)" class="px-2.5 py-1 bg-sky-600 hover:bg-sky-500 text-white rounded text-[11px] font-semibold transition cursor-pointer" title="සංස්කරණය කරන්න (Edit)">
+                                <i class="fa-solid fa-pen"></i> Edit
+                            </button>
+                            <button onclick="loadSheetFromArchive('${sheet.id}', true)" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded text-[11px] font-semibold transition cursor-pointer" title="මුද්‍රණය කරන්න (Print)">
+                                <i class="fa-solid fa-print"></i> Print
+                            </button>
+                            <button onclick="deleteSheetFromArchive('${sheet.id}')" class="px-2 py-1 bg-rose-100 hover:bg-rose-600 text-rose-600 hover:text-white rounded text-[11px] transition cursor-pointer" title="මකා දමන්න (Delete)">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        };
+
+        window.loadSheetFromArchive = function(sheetId, autoPrint = false) {
+            const sheet = window.savedSheetsArchive.find(s => s.id === sheetId);
+            if (!sheet) return;
+
+            window.currentEditingSheetId = sheet.id;
+            window.renderExpenditureDropdown(sheet.expenditureHead);
+            document.getElementById('sheetDate').value = sheet.sheetDate || '';
+            window.scheduleItems = JSON.parse(JSON.stringify(sheet.items || []));
+
+            window.renderTable();
+            updateEditModeUI();
+            window.closeReportCenter();
+
+            if (autoPrint) {
+                setTimeout(() => {
+                    window.print();
+                }, 300);
+            } else {
+                window.showToast('ලේඛනය සංස්කරණය සඳහා විවෘත කරන ලදී', 'info');
+            }
+        };
+
+        window.deleteSheetFromArchive = function(sheetId) {
+            if (confirm('ඔබට මෙම Schedule Sheet වාර්තාව ස්ථිරවම මකා දැමීමට අවශ්‍යද?')) {
+                window.savedSheetsArchive = window.savedSheetsArchive.filter(s => s.id !== sheetId);
+                persistArchive();
+
+                if (window.currentEditingSheetId === sheetId) {
+                    window.startNewSheet();
+                }
+
+                window.renderReportSheets();
+                window.renderPayeeSummaryReport();
+                window.showToast('වාර්තාව මකා දමන ලදී', 'error');
+            }
+        };
+
+        // Payee / Master Names Expense Breakdown
+        window.renderPayeeSummaryReport = function() {
+            const tbody = document.getElementById('rcPayeesTableBody');
+            if (!tbody) return;
+
+            const searchVal = (document.getElementById('rcPayeeSearch')?.value || '').toLowerCase().trim();
+
+            // Aggregate spending per Payee / Particulars across all saved sheets
+            const summaryMap = new Map();
+
+            // Pre-seed with Master Names List so zero-spend master items also appear
+            window.masterNamesList.forEach(masterName => {
+                summaryMap.set(masterName.trim(), {
+                    name: masterName.trim(),
+                    isMaster: true,
+                    count: 0,
+                    total: 0
+                });
+            });
+
+            // Sum up all transactions from saved sheets
+            window.savedSheetsArchive.forEach(sheet => {
+                if (Array.isArray(sheet.items)) {
+                    sheet.items.forEach(item => {
+                        const rawName = (item.name || '').trim();
+                        const amt = parseFloat(item.amount) || 0;
+                        if (!rawName && amt === 0) return;
+
+                        const key = rawName || 'සඳහන් නොකළ (Unspecified)';
+                        if (summaryMap.has(key)) {
+                            const entry = summaryMap.get(key);
+                            entry.count += 1;
+                            entry.total += amt;
+                        } else {
+                            summaryMap.set(key, {
+                                name: key,
+                                isMaster: window.masterNamesList.includes(key),
+                                count: 1,
+                                total: amt
+                            });
+                        }
+                    });
+                }
+            });
+
+            let results = Array.from(summaryMap.values());
+            if (searchVal) {
+                results = results.filter(r => r.name.toLowerCase().includes(searchVal));
+            }
+
+            // Sort by highest spent amount first
+            results.sort((a, b) => b.total - a.total);
+
+            const grandTotal = results.reduce((acc, r) => acc + r.total, 0);
+            const grandTotalEl = document.getElementById('rcPayeeGrandTotal');
+            if (grandTotalEl) {
+                grandTotalEl.innerText = 'Rs. ' + grandTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
+
+            if (results.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-400 font-sinhala">දත්ත කිසිවක් හමු නොවීය.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = '';
+            results.forEach((row, idx) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition';
+                const badge = row.isMaster 
+                    ? `<span class="px-2 py-0.5 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-full text-[10px] font-semibold">Master File</span>`
+                    : `<span class="px-2 py-0.5 bg-slate-100 text-slate-500 rounded-full text-[10px]">Custom Entry</span>`;
+
+                tr.innerHTML = `
+                    <td class="p-3 text-center font-mono text-slate-500">${idx + 1}</td>
+                    <td class="p-3 font-semibold text-slate-800">${escapeHtml(row.name)}</td>
+                    <td class="p-3 text-center">${badge}</td>
+                    <td class="p-3 text-center font-mono font-semibold text-slate-700">${row.count}</td>
+                    <td class="p-3 text-right font-mono font-bold ${row.total > 0 ? 'text-emerald-700' : 'text-slate-400'}">
+                        Rs. ${row.total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        };
+
+        window.exportPayeeReportCSV = function() {
+            let csvContent = "\uFEFF";
+            csvContent += `Central Province Irrigation Department - Payee Expense Summary Report\r\n`;
+            csvContent += `Generated Date: ${new Date().toISOString().split('T')[0]}\r\n\r\n`;
+            csvContent += `Index,Name / Particulars,Payment Count,Total Spent (LKR)\r\n`;
+
+            const summaryMap = new Map();
+            window.masterNamesList.forEach(m => summaryMap.set(m.trim(), { name: m.trim(), count: 0, total: 0 }));
+            window.savedSheetsArchive.forEach(s => {
+                (s.items || []).forEach(it => {
+                    const k = (it.name || '').trim();
+                    const a = parseFloat(it.amount) || 0;
+                    if (!k && a === 0) return;
+                    if (summaryMap.has(k)) {
+                        summaryMap.get(k).count += 1;
+                        summaryMap.get(k).total += a;
+                    } else {
+                        summaryMap.set(k, { name: k, count: 1, total: a });
+                    }
+                });
+            });
+
+            let i = 1;
+            summaryMap.forEach(val => {
+                csvContent += `${i++},"${val.name.replace(/"/g, '""')}",${val.count},${val.total.toFixed(2)}\r\n`;
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `Payee_Expense_Summary_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.showToast('Payee වාර්තාව CSV ලෙස බාගත කරන ලදී', 'success');
+        };
+
+        // ==========================================
+        // MASTER DATA MODAL FUNCTIONS
+        // ==========================================
         window.openMasterModal = function(tab = 'expenditure') {
             const modal = document.getElementById('masterModal');
             if (modal) modal.classList.remove('hidden');
@@ -683,15 +1242,15 @@
             const nameContent = document.getElementById('tabNamesContent');
 
             if (tab === 'expenditure') {
-                if (expBtn) expBtn.className = "px-4 py-2 text-sm font-semibold border-b-2 border-indigo-600 text-indigo-600 font-sinhala cursor-pointer";
-                if (nameBtn) nameBtn.className = "px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 font-sinhala cursor-pointer";
-                if (expContent) expContent.classList.remove('hidden');
-                if (nameContent) nameContent.classList.add('hidden');
+                expBtn.className = "px-4 py-2 text-sm font-semibold border-b-2 border-indigo-600 text-indigo-600 font-sinhala cursor-pointer";
+                nameBtn.className = "px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 font-sinhala cursor-pointer";
+                expContent.classList.remove('hidden');
+                nameContent.classList.add('hidden');
             } else {
-                if (nameBtn) nameBtn.className = "px-4 py-2 text-sm font-semibold border-b-2 border-indigo-600 text-indigo-600 font-sinhala cursor-pointer";
-                if (expBtn) expBtn.className = "px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 font-sinhala cursor-pointer";
-                if (nameContent) nameContent.classList.remove('hidden');
-                if (expContent) expContent.classList.add('hidden');
+                nameBtn.className = "px-4 py-2 text-sm font-semibold border-b-2 border-indigo-600 text-indigo-600 font-sinhala cursor-pointer";
+                expBtn.className = "px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 font-sinhala cursor-pointer";
+                nameContent.classList.remove('hidden');
+                expContent.classList.add('hidden');
             }
         };
 
@@ -781,56 +1340,13 @@
             if (savedNames) window.masterNamesList = JSON.parse(savedNames);
         }
 
-        window.saveToLocalStorage = function() {
-            saveMasterData();
-            const dataToSave = {
-                expenditureHead: document.getElementById('expenditureHeadSelect').value,
-                voucherNo: document.getElementById('voucherNo').value,
-                sheetDate: document.getElementById('sheetDate').value,
-                items: window.scheduleItems
-            };
-            localStorage.setItem('irrigation_schedule_sheet', JSON.stringify(dataToSave));
-            window.showToast('සියලුම දත්ත සාර්ථකව සුරකින ලදී!', 'success');
-        };
-
-        function loadFromLocalStorage() {
-            const saved = localStorage.getItem('irrigation_schedule_sheet');
-            if (saved) {
-                try {
-                    const parsed = JSON.parse(saved);
-                    if (parsed.expenditureHead) window.renderExpenditureDropdown(parsed.expenditureHead);
-                    if (parsed.voucherNo) document.getElementById('voucherNo').value = parsed.voucherNo;
-                    if (parsed.sheetDate) document.getElementById('sheetDate').value = parsed.sheetDate;
-                    if (Array.isArray(parsed.items) && parsed.items.length > 0) window.scheduleItems = parsed.items;
-                } catch (e) {
-                    console.error('Error loading saved state:', e);
-                }
-            }
-        }
-
-        window.clearAllData = function() {
-            if (confirm('ඔබට සියලුම දත්ත මකා දැමීමට අවශ්‍යද?')) {
-                window.scheduleItems = [
-                    { id: 1, name: "", amount: "" },
-                    { id: 2, name: "", amount: "" },
-                    { id: 3, name: "", amount: "" }
-                ];
-                document.getElementById('expenditureHeadSelect').value = '';
-                document.getElementById('voucherNo').value = '';
-                localStorage.removeItem('irrigation_schedule_sheet');
-                window.renderTable();
-                window.showToast('සියලුම දත්ත මකා දමන ලදී', 'error');
-            }
-        };
-
         window.exportToCSV = function() {
             const expHead = document.getElementById('expenditureHeadSelect').value || 'N/A';
-            const vNo = document.getElementById('voucherNo').value || 'N/A';
             const sDate = document.getElementById('sheetDate').value || 'N/A';
 
             let csvContent = "\uFEFF"; 
             csvContent += `Central Province Irrigation Department - Schedule Sheet\r\n`;
-            csvContent += `Expenditure Head: ${expHead}, Voucher No: ${vNo}, Date: ${sDate}\r\n\r\n`;
+            csvContent += `Expenditure Head: ${expHead}, Date: ${sDate}\r\n\r\n`;
             csvContent += `Index,Name / Particulars,Amount (LKR)\r\n`;
 
             let total = 0;
@@ -845,17 +1361,17 @@
 
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
-            const url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute("download", `Schedule_Sheet_${vNo || 'export'}_${sDate}.csv`);
+            link.href = URL.createObjectURL(blob);
+            link.download = `Schedule_Sheet_${sDate}.csv`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-
             window.showToast('CSV ගොනුව බාගත කරන ලදී', 'success');
         };
 
+        // ==========================================
+        // ENCRYPTED BACKUP & RESTORE (INCLUDES ALL ARCHIVE DATA)
+        // ==========================================
         const INTERNAL_SYSTEM_SALT = new Uint8Array([73, 114, 114, 105, 103, 97, 116, 105, 111, 110, 67, 101, 110, 116, 114, 97]);
         const INTERNAL_BASE_PHRASE = "CentralProv_IrrigationDept_VoucherSheet_2026_SecureVaultKey";
 
@@ -886,14 +1402,14 @@
         window.exportEncryptedBackup = async function() {
             try {
                 const payload = {
-                    version: "1.0",
+                    version: "2.0",
                     created: new Date().toISOString(),
                     preparedBy: window.currentUserName,
                     masterExp: window.masterExpenditureHeads,
                     masterNames: window.masterNamesList,
+                    savedSheetsArchive: window.savedSheetsArchive,
                     activeSheet: {
                         expenditureHead: document.getElementById('expenditureHeadSelect').value,
-                        voucherNo: document.getElementById('voucherNo').value,
                         sheetDate: document.getElementById('sheetDate').value,
                         items: window.scheduleItems
                     }
@@ -918,8 +1434,7 @@
 
                 const blob = new Blob([combined], { type: "application/octet-stream" });
                 const datePart = new Date().toISOString().split('T')[0];
-                const vNo = document.getElementById('voucherNo').value.trim() || 'DATA';
-                const filename = `CP_Irrigation_Backup_${vNo}_${datePart}.enc`;
+                const filename = `CP_Irrigation_FullBackup_${datePart}.enc`;
 
                 const link = document.createElement("a");
                 link.href = URL.createObjectURL(blob);
@@ -929,7 +1444,7 @@
                 document.body.removeChild(link);
                 URL.revokeObjectURL(link.href);
 
-                window.showToast('Encrypted Backup සාර්ථකව බාගත කරන ලදී!', 'success');
+                window.showToast('සියලුම වාර්තා සහිත Encrypted Backup බාගත විය!', 'success');
             } catch (err) {
                 console.error("Backup Error:", err);
                 window.showToast('Backup කිරීම අසාර්ථක විය!', 'error');
@@ -947,9 +1462,7 @@
 
             try {
                 const arrayBuffer = await file.arrayBuffer();
-                if (arrayBuffer.byteLength < 13) {
-                    throw new Error("Invalid file length");
-                }
+                if (arrayBuffer.byteLength < 13) throw new Error("Invalid file length");
 
                 const fullBytes = new Uint8Array(arrayBuffer);
                 const iv = fullBytes.slice(0, 12);
@@ -963,8 +1476,7 @@
                 );
 
                 const dec = new TextDecoder();
-                const jsonStr = dec.decode(decryptedBuffer);
-                const restored = JSON.parse(jsonStr);
+                const restored = JSON.parse(dec.decode(decryptedBuffer));
 
                 if (restored.preparedBy) {
                     window.currentUserName = restored.preparedBy;
@@ -974,12 +1486,17 @@
 
                 if (Array.isArray(restored.masterExp)) {
                     window.masterExpenditureHeads = restored.masterExp;
-                    localStorage.setItem('irrigation_master_exp', JSON.stringify(window.masterExpenditureHeads));
+                    saveMasterData();
                 }
 
                 if (Array.isArray(restored.masterNames)) {
                     window.masterNamesList = restored.masterNames;
-                    localStorage.setItem('irrigation_master_names', JSON.stringify(window.masterNamesList));
+                    saveMasterData();
+                }
+
+                if (Array.isArray(restored.savedSheetsArchive)) {
+                    window.savedSheetsArchive = restored.savedSheetsArchive;
+                    persistArchive();
                 }
 
                 if (restored.activeSheet) {
@@ -987,9 +1504,6 @@
                         window.renderExpenditureDropdown(restored.activeSheet.expenditureHead);
                     } else {
                         window.renderExpenditureDropdown();
-                    }
-                    if (restored.activeSheet.voucherNo) {
-                        document.getElementById('voucherNo').value = restored.activeSheet.voucherNo;
                     }
                     if (restored.activeSheet.sheetDate) {
                         document.getElementById('sheetDate').value = restored.activeSheet.sheetDate;
@@ -1001,15 +1515,9 @@
 
                 window.renderDatalist();
                 window.renderTable();
-                saveMasterData();
-                localStorage.setItem('irrigation_schedule_sheet', JSON.stringify({
-                    expenditureHead: document.getElementById('expenditureHeadSelect').value,
-                    voucherNo: document.getElementById('voucherNo').value,
-                    sheetDate: document.getElementById('sheetDate').value,
-                    items: window.scheduleItems
-                }));
+                saveDraftState();
 
-                window.showToast('දත්ත සාර්ථකව Decrypt කර Restore කරන ලදී!', 'success');
+                window.showToast('සියලුම වාර්තා සහ දත්ත සාර්ථකව Restore කරන ලදී!', 'success');
             } catch (err) {
                 console.error("Restore Error:", err);
                 window.showToast('අවලංගු හෝ හානි වූ Backup ගොනුවකි!', 'error');
@@ -1040,7 +1548,6 @@
             }
 
             toast.classList.remove('translate-y-20', 'opacity-0');
-
             setTimeout(() => {
                 toast.classList.add('translate-y-20', 'opacity-0');
             }, 3000);
