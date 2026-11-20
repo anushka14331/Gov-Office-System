@@ -1,216 +1,370 @@
 <!DOCTYPE html>
-<html lang="si" class="h-full bg-slate-100">
+<html lang="si" class="h-full bg-slate-50">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>රාජ්‍ය කාර්යාල කළමනාකරණ පද්ධතිය - Gov Office System</title>
+    <title>Schedule Sheet - මධ්‍යම පළාත් වාරිමාර්ග දෙපාර්තමේන්තුව</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts for Sinhala & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        .font-sinhala { font-family: 'Abhaya Libre', serif; }
-    </style>
-</head>
-<body class="h-full flex flex-col min-h-screen text-slate-800">
-
-    <!-- Auth Modal -->
-    <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 sm:p-8 border border-slate-100 my-8">
-            <div class="text-center mb-6">
-                <div class="w-14 h-14 bg-sky-100 text-sky-800 rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl shadow-inner">
-                    <i class="fa-solid fa-building-shield"></i>
-                </div>
-                <h2 class="text-xl font-bold font-sinhala text-slate-900">රාජ්‍ය කාර්යාල කළමනාකරණ පද්ධතිය</h2>
-                <p class="text-xs text-slate-500 mt-1">Gov Office System - Management Portal</p>
-            </div>
-
-            <!-- Tab Buttons -->
-            <div class="flex border-b border-slate-200 mb-6">
-                <button id="tab-login" type="button" onclick="switchAuthTab('login')" class="flex-1 py-2 text-sm font-semibold text-sky-800 border-b-2 border-sky-800 focus:outline-none transition cursor-pointer">Sign In</button>
-                <button id="tab-signup" type="button" onclick="switchAuthTab('signup')" class="flex-1 py-2 text-sm font-semibold text-slate-400 border-b-2 border-transparent focus:outline-none transition cursor-pointer">Sign Up (ඉල්ලීමක් යොමු කරන්න)</button>
-            </div>
-
-            <!-- 1. LOGIN FORM -->
-            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">විද්‍යුත් තැපෑල (Email) *</label>
-                    <input type="email" id="login-email" required class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none" placeholder="officer@domain.gov.lk">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">මුරපදය (Password) *</label>
-                    <input type="password" id="login-password" required class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none" placeholder="••••••••">
-                </div>
-                <div id="login-error" class="hidden text-xs text-rose-600 bg-rose-50 p-2.5 rounded-lg border border-rose-200"></div>
-                <button type="submit" id="login-btn" class="w-full py-2.5 bg-sky-800 hover:bg-sky-900 text-white rounded-lg text-sm font-medium transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
-                    <span id="login-btn-text">ඇතුළු වන්න</span>
-                    <i class="fa-solid fa-arrow-right text-xs"></i>
-                </button>
-            </form>
-
-            <!-- 2. SIGN UP / EMAIL REQUEST FORM -->
-            <form id="signup-form" action="https://formsubmit.co/cpcpid001@gmail.com" method="POST" class="space-y-4 hidden">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_subject" value="[Gov Office System] New User Access Request">
-                <input type="hidden" name="_next" value="https://anushka14331.github.io/Gov-Office-System/">
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">First Name (මුල් නම) *</label>
-                        <input type="text" name="First Name" required class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none" placeholder="Kamal">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">Last Name (වාසගම) *</label>
-                        <input type="text" name="Last Name" required class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none" placeholder="Perera">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Phone Number (දුරකථන අංකය) *</label>
-                    <input type="tel" name="Phone Number" required class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none" placeholder="07XXXXXXXX">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">විද්‍යුත් තැපෑල (Email) *</label>
-                    <input type="email" name="Email" required class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none" placeholder="officer@domain.gov.lk">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">අවශ්‍ය මුරපදය (Requested Password) *</label>
-                    <input type="password" name="Requested Password" required minlength="6" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none" placeholder="අවම වශයෙන් අකුරු 6ක්">
-                </div>
-
-                <button type="submit" class="w-full py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-sm font-medium transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
-                    <span>ඉල්ලීම ඊමේල් කරන්න (Send Email Request)</span>
-                    <i class="fa-solid fa-paper-plane text-xs"></i>
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Main Portal Content -->
-    <div id="main-portal" class="flex-1 flex flex-col blur-sm pointer-events-none transition-all duration-300">
-        <header class="bg-gradient-to-r from-sky-950 via-cyan-900 to-sky-900 text-white shadow-lg sticky top-0 z-40">
-            <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-cyan-300 text-xl border border-white/20">
-                        <i class="fa-solid fa-building-columns"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-base sm:text-lg font-bold font-sinhala leading-tight">රාජ්‍ය කාර්යාල කළමනාකරණ පද්ධතිය</h1>
-                        <p class="text-[11px] text-cyan-200">Gov Office System - Integrated Portal</p>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <span id="current-user-tag" class="text-xs text-cyan-100 bg-white/10 px-3 py-1 rounded-full border border-white/20 hidden sm:inline-block"></span>
-                    <button type="button" onclick="handleSignOut()" class="px-3 py-1.5 bg-rose-600/80 hover:bg-rose-600 text-white rounded-lg text-xs font-medium transition flex items-center gap-1.5 cursor-pointer">
-                        <i class="fa-solid fa-right-from-bracket"></i> Sign Out
-                    </button>
-                </div>
-            </div>
-        </header>
-
-        <!-- Department Hub Cards -->
-        <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-8">
-            <div class="text-center mb-8">
-                <h2 class="text-2xl font-bold font-sinhala text-slate-900">දෙපාර්තමේන්තු අංශ තෝරන්න</h2>
-                <p class="text-xs text-slate-500 mt-1">අදාළ අංශය මත ක්ලික් කර අවශ්‍ය කළමනාකරණ මෙවලම තෝරන්න.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Accounts -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden">
-                    <div class="p-6">
-                        <div class="w-12 h-12 bg-sky-50 rounded-xl flex items-center justify-center text-sky-700 text-xl border border-sky-100 mb-4">
-                            <i class="fa-solid fa-file-invoice-dollar"></i>
-                        </div>
-                        <span class="text-[10px] font-bold text-sky-700 tracking-wider uppercase bg-sky-50 px-2 py-0.5 rounded-full border border-sky-200">Active</span>
-                        <h3 class="text-xl font-bold font-sinhala text-slate-900 mt-3">ගිණුම් අංශය</h3>
-                        <p class="text-xs text-slate-400 font-medium">Accounts Department</p>
-                        <p class="text-sm text-slate-600 mt-3 leading-relaxed">
-                            ගෙවීම් වවුචර සටහන් (Schedule Sheets), වැය ශීර්ෂ සහ මූල්‍ය පරිපාලන මෙවලම්.
-                        </p>
-                        <div class="mt-4 pt-4 border-t border-slate-100">
-                            <a href="accounts/schedule-sheet.html" class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-50 text-xs font-semibold text-slate-700 hover:text-sky-800 transition">
-                                <span class="flex items-center gap-2">
-                                    <i class="fa-regular fa-file-lines text-sky-600"></i> Schedule Sheet System
-                                </span>
-                                <i class="fa-solid fa-arrow-right text-slate-400"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="p-4 bg-slate-50 border-t border-slate-100">
-                        <a href="accounts/schedule-sheet.html" class="w-full inline-flex items-center justify-center gap-2 py-2.5 bg-sky-800 hover:bg-sky-900 text-white rounded-xl text-xs font-semibold transition">
-                            <span>ඇතුළු වන්න (Open)</span>
-                            <i class="fa-solid fa-arrow-right text-xs"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Admin -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between overflow-hidden opacity-90">
-                    <div class="p-6">
-                        <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-700 text-xl border border-emerald-100 mb-4">
-                            <i class="fa-solid fa-users-gear"></i>
-                        </div>
-                        <span class="text-[10px] font-bold text-slate-500 uppercase bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200">Coming Soon</span>
-                        <h3 class="text-xl font-bold font-sinhala text-slate-900 mt-3">පරිපාලන අංශය</h3>
-                        <p class="text-xs text-slate-400 font-medium">Administrative Department</p>
-                        <p class="text-sm text-slate-600 mt-3 leading-relaxed">
-                            කාර්ය මණ්ඩල පැමිණීම්, නිවාඩු වාර්තා සහ සාමාන්‍ය පරිපාලන ලිපිලේඛන.
-                        </p>
-                    </div>
-                    <div class="p-4 bg-slate-50 border-t border-slate-100">
-                        <button disabled class="w-full py-2.5 bg-slate-200 text-slate-400 rounded-xl text-xs font-semibold cursor-not-allowed">ළඟදීම බලාපොරොත්තු වන්න</button>
-                    </div>
-                </div>
-
-                <!-- Development -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between overflow-hidden opacity-90">
-                    <div class="p-6">
-                        <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-700 text-xl border border-indigo-100 mb-4">
-                            <i class="fa-solid fa-compass-drafting"></i>
-                        </div>
-                        <span class="text-[10px] font-bold text-slate-500 uppercase bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200">Coming Soon</span>
-                        <h3 class="text-xl font-bold font-sinhala text-slate-900 mt-3">සංවර්ධන අංශය</h3>
-                        <p class="text-xs text-slate-400 font-medium">Development Department</p>
-                        <p class="text-sm text-slate-600 mt-3 leading-relaxed">
-                            ව්‍යාපෘති අධීක්ෂණය, ප්‍රගති වාර්තා සහ තාක්ෂණික ඇස්තමේන්තු කළමනාකරණය.
-                        </p>
-                    </div>
-                    <div class="p-4 bg-slate-50 border-t border-slate-100">
-                        <button disabled class="w-full py-2.5 bg-slate-200 text-slate-400 rounded-xl text-xs font-semibold cursor-not-allowed">ළඟදීම බලාපොරොත්තු වන්න</button>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
+    <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
-        function switchAuthTab(mode) {
-            const tabLogin = document.getElementById('tab-login');
-            const tabSignup = document.getElementById('tab-signup');
-            const loginForm = document.getElementById('login-form');
-            const signupForm = document.getElementById('signup-form');
-
-            if (mode === 'login') {
-                tabLogin.className = "flex-1 py-2 text-sm font-semibold text-sky-800 border-b-2 border-sky-800 focus:outline-none transition cursor-pointer";
-                tabSignup.className = "flex-1 py-2 text-sm font-semibold text-slate-400 border-b-2 border-transparent focus:outline-none transition cursor-pointer";
-                loginForm.classList.remove('hidden');
-                signupForm.classList.add('hidden');
-            } else {
-                tabSignup.className = "flex-1 py-2 text-sm font-semibold text-sky-800 border-b-2 border-sky-800 focus:outline-none transition cursor-pointer";
-                tabLogin.className = "flex-1 py-2 text-sm font-semibold text-slate-400 border-b-2 border-transparent focus:outline-none transition cursor-pointer";
-                signupForm.classList.remove('hidden');
-                loginForm.classList.add('hidden');
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        sinhala: ['Abhaya Libre', 'serif'],
+                    },
+                    colors: {
+                        irrigation: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#06b6d4',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
             }
         }
     </script>
+    <style>
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+            body {
+                background: white !important;
+                color: black !important;
+                font-size: 11pt;
+            }
+            .page-container {
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                max-width: 100% !important;
+                border: none !important;
+            }
+            input, select {
+                border: none !important;
+                background: transparent !important;
+                padding: 0 !important;
+                font-weight: 600;
+                appearance: none !important;
+                -webkit-appearance: none !important;
+            }
+            .table-border-print th, .table-border-print td {
+                border: 1px solid #333 !important;
+                padding: 5px 8px !important;
+            }
+        }
 
-    <!-- Firebase Auth for Login Validation (Configured with Exact Credentials) -->
+        .print-only {
+            display: none;
+        }
+    </style>
+</head>
+<body class="h-full text-slate-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <!-- Auth Protection Overlay -->
+    <div id="auth-loading" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900 text-white no-print">
+        <div class="text-center">
+            <i class="fa-solid fa-spinner fa-spin text-3xl text-cyan-400 mb-3"></i>
+            <p class="text-xs tracking-wider text-slate-300 font-sinhala">පද්ධති ප්‍රවේශය සත්‍යාපනය වෙමින් පවතී...</p>
+        </div>
+    </div>
+
+    <!-- Top Navigation / Toolbar (No Print) -->
+    <header class="bg-gradient-to-r from-irrigation-900 to-irrigation-800 text-white shadow-md no-print sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center space-x-3">
+                <a href="../index.html" class="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-cyan-200 hover:text-white transition" title="ප්‍රධාන Dashboard වෙත">
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
+                </a>
+                <div class="bg-white/10 p-2 rounded-lg backdrop-blur-sm">
+                    <i class="fa-solid fa-water text-cyan-300 text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-bold font-sinhala leading-tight">මධ්‍යම පළාත් වාරිමාර්ග දෙපාර්තමේන්තුව</h1>
+                    <p class="text-xs text-cyan-200">Central Province Irrigation Department - Schedule Management</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2 flex-wrap">
+                <!-- Logged In User Profile Pill -->
+                <div class="bg-white/10 hover:bg-white/20 transition backdrop-blur-sm rounded-lg px-3 py-1.5 flex items-center gap-2 border border-white/20">
+                    <i class="fa-solid fa-circle-user text-cyan-300"></i>
+                    <div class="text-xs">
+                        <span class="text-cyan-200 block text-[10px] uppercase font-bold">පරිශීලකයා</span>
+                        <span id="currentUserDisplay" class="font-bold text-white cursor-pointer hover:underline" onclick="changeCurrentUser()" title="පරිශීලක නම වෙනස් කරන්න">Anushaka Nawarathna</span>
+                    </div>
+                    <button onclick="changeCurrentUser()" class="ml-1 text-xs text-cyan-300 hover:text-white" title="වෙනස් කරන්න">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                </div>
+
+                <button onclick="openMasterModal()" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer">
+                    <i class="fa-solid fa-list-check text-xs"></i> <span>Master Data</span>
+                </button>
+                <button onclick="addNewRow()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer">
+                    <i class="fa-solid fa-plus text-xs"></i> <span>පේළියක්</span>
+                </button>
+                <button onclick="saveToLocalStorage()" class="px-3 py-2 bg-cyan-700 hover:bg-cyan-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer">
+                    <i class="fa-solid fa-floppy-disk text-xs"></i> <span>සුරකින්න</span>
+                </button>
+                <button onclick="exportToCSV()" class="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer">
+                    <i class="fa-solid fa-file-excel text-xs"></i> <span>CSV</span>
+                </button>
+
+                <!-- Encrypted Backup & Restore Buttons -->
+                <button onclick="exportEncryptedBackup()" class="px-3 py-2 bg-teal-700 hover:bg-teal-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer" title="දත්ත Encrypt කර Backup ගොනුවක් බාගත කරන්න">
+                    <i class="fa-solid fa-shield-halved text-xs"></i> <span>Backup</span>
+                </button>
+                <button onclick="triggerRestoreInput()" class="px-3 py-2 bg-purple-700 hover:bg-purple-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer" title="Encrypted Backup ගොනුවක් තෝරා දත්ත Decrypt කර Restore කරන්න">
+                    <i class="fa-solid fa-rotate-left text-xs"></i> <span>Restore</span>
+                </button>
+                <input type="file" id="restoreFileInput" accept=".enc" class="hidden" onchange="handleRestoreFile(event)">
+
+                <button onclick="triggerPrint()" class="px-3 py-2 bg-amber-600 hover:bg-amber-500 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer">
+                    <i class="fa-solid fa-print text-xs"></i> <span>මුද්‍රණය</span>
+                </button>
+                <button onclick="clearAllData()" class="px-3 py-2 bg-rose-700 hover:bg-rose-600 text-white font-medium text-sm rounded-lg transition-all shadow hover:shadow-md flex items-center gap-1.5 cursor-pointer">
+                    <i class="fa-solid fa-trash-can text-xs"></i> <span>මකන්න</span>
+                </button>
+                <button id="sub-signout-btn" class="px-2.5 py-2 bg-slate-800 hover:bg-rose-900/80 text-rose-300 hover:text-white rounded-lg text-xs transition border border-rose-900/50 cursor-pointer" title="Sign Out">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Notification Alert Box (No Print) -->
+    <div id="toastNotification" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 ease-in-out no-print">
+        <div class="bg-slate-900 text-white px-4 py-3 rounded-lg shadow-xl flex items-center gap-3 border border-slate-700">
+            <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400"></i>
+            <span id="toastMessage" class="text-sm font-medium">ක්‍රියාව සාර්ථකයි</span>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="page-container bg-white rounded-2xl shadow-xl border border-slate-200/80 p-6 sm:p-10 transition-all">
+            
+            <!-- Official Document Header -->
+            <div class="border-b-2 border-irrigation-800 pb-6 mb-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <span class="inline-block px-3 py-1 bg-irrigation-50 text-irrigation-800 text-xs font-semibold rounded-full border border-irrigation-200 mb-2 no-print">රාජකාරි ලේඛනය</span>
+                        <h2 class="text-2xl sm:text-3xl font-bold font-sinhala text-slate-900">මධ්‍යම පළාත් වාරිමාර්ග දෙපාර්තමේන්තුව</h2>
+                        <h3 class="text-lg font-semibold text-irrigation-800 tracking-wide font-sans">SCHEDULE SHEET</h3>
+                    </div>
+                    <div class="text-right sm:text-right w-full sm:w-auto">
+                        <div class="inline-block p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block font-sinhala">ලේඛන වර්ගය</span>
+                            <span class="text-sm font-bold text-slate-700 font-sinhala">ගෙවීම්/වියදම් සටහන</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Meta Controls (Header Fields) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 bg-slate-50/80 p-4 rounded-xl border border-slate-200/60">
+                    <div>
+                        <label for="expenditureHeadSelect" class="block text-xs font-bold text-slate-700 mb-1 font-sinhala">
+                            වැය ශීර්ෂය (Expenditure Head):
+                        </label>
+                        <div class="flex gap-2">
+                            <select id="expenditureHeadSelect" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-irrigation-500 transition">
+                            </select>
+                            <button type="button" onclick="openMasterModal('expenditure')" class="no-print px-2.5 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs" title="නව වැය ශීර්ෂයක් එකතු කරන්න">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="voucherNo" class="block text-xs font-bold text-slate-700 mb-1 font-sinhala">වවුචර අංකය (Voucher No):</label>
+                        <input type="text" id="voucherNo" placeholder="උදා: VR-2026-089" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-irrigation-500 transition">
+                    </div>
+                    <div>
+                        <label for="sheetDate" class="block text-xs font-bold text-slate-700 mb-1 font-sinhala">දිනය (Date):</label>
+                        <input type="date" id="sheetDate" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-irrigation-500 transition">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Table -->
+            <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm mb-6">
+                <table class="w-full text-left border-collapse table-border-print" id="scheduleTable">
+                    <thead>
+                        <tr class="bg-irrigation-900 text-white font-sinhala text-sm">
+                            <th class="py-3.5 px-4 w-16 text-center border-b border-irrigation-800">අනු අංකය</th>
+                            <th class="py-3.5 px-4 border-b border-irrigation-800">නම / විස්තරය (Name / Particulars)</th>
+                            <th class="py-3.5 px-4 w-48 text-right border-b border-irrigation-800">මුදල (Amount LKR)</th>
+                            <th class="py-3.5 px-4 w-20 text-center border-b border-irrigation-800 no-print">ක්‍රියාමාර්ග</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody" class="divide-y divide-slate-200 text-sm font-sans bg-white">
+                    </tbody>
+                    <tfoot>
+                        <tr class="bg-slate-100 font-bold font-sinhala text-slate-900">
+                            <td colspan="2" class="py-4 px-4 text-right text-base">එකතුව (Total):</td>
+                            <td class="py-4 px-4 text-right text-base text-irrigation-800 font-sans" id="totalAmount">Rs. 0.00</td>
+                            <td class="no-print"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <!-- Total Breakdown Info Cards (No Print) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 no-print">
+                <div class="p-4 rounded-xl bg-cyan-50/60 border border-cyan-200/80 flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-cyan-500/10 flex items-center justify-center text-irrigation-700">
+                        <i class="fa-solid fa-calculator text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-500 font-medium block font-sinhala">මුළු අයිතම ගණන (Total Entries)</span>
+                        <span id="rowCountLabel" class="text-lg font-bold text-slate-800">0</span>
+                    </div>
+                </div>
+
+                <div class="p-4 rounded-xl bg-emerald-50/60 border border-emerald-200/80 flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-700">
+                        <i class="fa-solid fa-money-bill-wave text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-500 font-medium block font-sinhala">මුළු මුදල (Grand Total)</span>
+                        <span id="grandTotalLabel" class="text-lg font-bold text-emerald-800">Rs. 0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Signatures Section (Updated: Prepared by, Checked by, Expenditure Certifying Officer - Name-free for manual signing) -->
+            <div class="mt-12 pt-8 border-t border-slate-300">
+                <h4 class="text-xs uppercase font-bold text-slate-400 tracking-wider mb-8 font-sinhala no-print">තහවුරු කිරීම් (Signatures)</h4>
+                
+                <div class="grid grid-cols-3 gap-6 text-center font-sinhala text-sm max-w-4xl mx-auto items-start">
+                    
+                    <!-- Column 1: Prepared By -->
+                    <div class="flex flex-col items-center">
+                        <div class="w-full border-b border-slate-400 border-dashed mb-2 h-16"></div>
+                        <div class="h-5 flex items-center justify-center">
+                            <p class="font-bold text-slate-800 leading-tight">සකස් කළේ</p>
+                        </div>
+                        <div class="h-4 flex items-center justify-center">
+                            <p class="text-[11px] text-slate-500 font-sans">(Prepared by)</p>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Checked By -->
+                    <div class="flex flex-col items-center">
+                        <div class="w-full border-b border-slate-400 border-dashed mb-2 h-16"></div>
+                        <div class="h-5 flex items-center justify-center">
+                            <p class="font-bold text-slate-800 leading-tight">පරීක්ෂා කළේ</p>
+                        </div>
+                        <div class="h-4 flex items-center justify-center">
+                            <p class="text-[11px] text-slate-500 font-sans">(Checked by)</p>
+                        </div>
+                    </div>
+
+                    <!-- Column 3: Expenditure Certifying Officer -->
+                    <div class="flex flex-col items-center">
+                        <div class="w-full border-b border-slate-400 border-dashed mb-2 h-16"></div>
+                        <div class="h-5 flex items-center justify-center">
+                            <p class="font-bold text-slate-800 leading-tight">වැය සහතික කරන නිලධාරී</p>
+                        </div>
+                        <div class="h-4 flex items-center justify-center">
+                            <p class="text-[11px] text-slate-500 font-sans">(Expenditure Certifying Officer)</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Developer Attribution (Single Line Bottom Signature) -->
+                <div class="mt-10 pt-3 border-t border-slate-200/60 text-center w-full">
+                    <p class="text-[10px] text-slate-400 font-sans tracking-wide whitespace-nowrap">
+                        Software Developed by Anushka Nawarathna
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Master Data Management Modal (No Print) -->
+    <div id="masterModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden no-print">
+        <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-2xl w-full p-6 overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="flex justify-between items-center pb-4 border-b border-slate-200">
+                <h3 class="text-xl font-bold font-sinhala text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-indigo-600"></i> Master File Data කළමනාකරණය
+                </h3>
+                <button onclick="closeMasterModal()" class="text-slate-400 hover:text-slate-600 rounded-lg p-1.5 text-lg cursor-pointer">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex border-b border-slate-200 mt-4">
+                <button id="tabExpBtn" onclick="switchTab('expenditure')" class="px-4 py-2 text-sm font-semibold border-b-2 border-indigo-600 text-indigo-600 font-sinhala cursor-pointer">
+                    වැය ශීර්ෂ ලැයිස්තුව (Expenditure Heads)
+                </button>
+                <button id="tabNameBtn" onclick="switchTab('names')" class="px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 font-sinhala cursor-pointer">
+                    නම / විස්තර Master File (Names List)
+                </button>
+            </div>
+
+            <!-- Tab Content: Expenditure Heads -->
+            <div id="tabExpContent" class="py-4 space-y-4 overflow-y-auto flex-1">
+                <div class="flex gap-2">
+                    <input type="text" id="newExpInput" placeholder="නව වැය ශීර්ෂයක් ඇතුළත් කරන්න (උදා: 450-02-01)" class="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <button onclick="addMasterExp()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium font-sinhala cursor-pointer">
+                        එකතු කරන්න
+                    </button>
+                </div>
+                <ul id="expList" class="divide-y divide-slate-100 border border-slate-200 rounded-lg">
+                </ul>
+            </div>
+
+            <!-- Tab Content: Master Names -->
+            <div id="tabNamesContent" class="py-4 space-y-4 overflow-y-auto flex-1 hidden">
+                <div class="flex gap-2">
+                    <input type="text" id="newNameInput" placeholder="නව නම / විස්තරයක් ඇතුළත් කරන්න" class="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <button onclick="addMasterName()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium font-sinhala cursor-pointer">
+                        එකතු කරන්න
+                    </button>
+                </div>
+                <ul id="namesList" class="divide-y divide-slate-100 border border-slate-200 rounded-lg">
+                </ul>
+            </div>
+
+            <div class="pt-4 border-t border-slate-200 flex justify-end">
+                <button onclick="closeMasterModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-lg text-sm font-sinhala cursor-pointer">
+                    වසා දමන්න
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HTML Datalist for Auto-complete in table rows -->
+    <datalist id="masterNamesDatalist"></datalist>
+
+    <!-- Footer (No Print) -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 no-print mt-auto">
+        <p>මධ්‍යම පළාත් වාරිමාර්ග දෙපාර්තමේන්තුව - Central Province Irrigation Department System © 2026</p>
+    </footer>
+
+    <!-- Firebase Auth Protection Module -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA-QjAG38lQHIQjdD5diSDke1TD1DUEzms",
@@ -225,55 +379,676 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        window.handleLogin = async function(e) {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value.trim();
-            const password = document.getElementById('login-password').value;
-            const errBox = document.getElementById('login-error');
-            const btn = document.getElementById('login-btn');
-            const btnText = document.getElementById('login-btn-text');
+        const loadingOverlay = document.getElementById('auth-loading');
+        const signoutBtn = document.getElementById('sub-signout-btn');
 
-            errBox.classList.add('hidden');
-            btn.disabled = true;
-            btnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> පරීක්ෂා කරමින් පවතී...';
-
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-            } catch (err) {
-                console.error("Login Error:", err.code, err.message);
-                let msg = "විද්‍යුත් තැපෑල හෝ මුරපදය වැරදිය. කරුණාකර නැවත පරීක්ෂා කරන්න.";
-                if (err.code === 'auth/unauthorized-domain') {
-                    msg = "Firebase Console හි Authorized Domains වෙත anushka14331.github.io ඇතුළත් කර නොමැත.";
-                } else if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
-                    msg = "ඇතුළත් කළ විද්‍යුත් තැපෑල හෝ මුරපදය නිවැරදි නැත.";
-                }
-                errBox.textContent = msg;
-                errBox.classList.remove('hidden');
-            } finally {
-                btn.disabled = false;
-                btnText.textContent = "ඇතුළු වන්න";
-            }
-        };
-
-        window.handleSignOut = async function() {
-            await signOut(auth);
-            location.reload();
-        };
+        if (signoutBtn) {
+            signoutBtn.addEventListener('click', async () => {
+                await signOut(auth);
+                window.location.href = '../index.html';
+            });
+        }
 
         onAuthStateChanged(auth, (user) => {
-            const authModal = document.getElementById('auth-modal');
-            const mainPortal = document.getElementById('main-portal');
-            const userTag = document.getElementById('current-user-tag');
-
             if (user) {
-                authModal.classList.add('hidden');
-                mainPortal.classList.remove('blur-sm', 'pointer-events-none');
-                userTag.textContent = user.email;
+                if (loadingOverlay) loadingOverlay.classList.add('hidden');
+                if (typeof window.initScheduleApp === 'function') {
+                    window.initScheduleApp();
+                }
             } else {
-                authModal.classList.remove('hidden');
-                mainPortal.classList.add('blur-sm', 'pointer-events-none');
+                window.location.href = '../index.html';
             }
         });
+    </script>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        window.currentUserName = "Anushaka Nawarathna";
+
+        window.masterExpenditureHeads = [
+            "450-01-01 (පරිපාලන වියදම්)",
+            "450-02-01 (නඩත්තු කටයුතු)",
+            "450-02-02 (වාරිමාර්ග සංවර්ධන)",
+            "450-03-05 (ඉන්ධන හා ප්‍රවාහන)"
+        ];
+
+        window.masterNamesList = [
+            "එන්. නදීකා (Nadeeka Akka)",
+            "ජල සම්පාදන ව්‍යාපෘති ගෙවීම්",
+            "කාර්යාලීය නඩත්තු ගෙවීම්",
+            "සේවක දීමනා ගෙවීම්",
+            "ඉන්ධන දීමනා"
+        ];
+
+        window.scheduleItems = [
+            { id: 1, name: "", amount: "" },
+            { id: 2, name: "", amount: "" },
+            { id: 3, name: "", amount: "" }
+        ];
+
+        window.initScheduleApp = function() {
+            const dateInput = document.getElementById('sheetDate');
+            if (dateInput && !dateInput.value) {
+                dateInput.value = new Date().toISOString().split('T')[0];
+            }
+
+            loadUserData();
+            loadMasterData();
+            loadFromLocalStorage();
+
+            renderExpenditureDropdown();
+            renderDatalist();
+            renderTable();
+            updateUserUI();
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.initScheduleApp();
+        });
+
+        window.updateUserUI = function() {
+            const displayEl = document.getElementById('currentUserDisplay');
+            if (displayEl) displayEl.innerText = window.currentUserName;
+        };
+
+        window.changeCurrentUser = function() {
+            const newUser = prompt("ලොග් වී සිටින පරිශීලකයාගේ නම ඇතුළත් කරන්න:", window.currentUserName);
+            if (newUser && newUser.trim() !== "") {
+                window.currentUserName = newUser.trim();
+                localStorage.setItem('irrigation_current_user', window.currentUserName);
+                window.updateUserUI();
+                window.showToast('පරිශීලක නම වෙනස් කරන ලදී', 'success');
+            }
+        };
+
+        function loadUserData() {
+            const savedUser = localStorage.getItem('irrigation_current_user');
+            if (savedUser) {
+                window.currentUserName = savedUser;
+            }
+        }
+
+        window.renderExpenditureDropdown = function(selectedVal = '') {
+            const select = document.getElementById('expenditureHeadSelect');
+            if (!select) return;
+            const currentVal = selectedVal || select.value;
+            select.innerHTML = '<option value="">-- වැය ශීර්ෂය තෝරන්න --</option>';
+
+            window.masterExpenditureHeads.forEach(head => {
+                const opt = document.createElement('option');
+                opt.value = head;
+                opt.innerText = head;
+                if (head === currentVal) opt.selected = true;
+                select.appendChild(opt);
+            });
+        };
+
+        window.renderDatalist = function() {
+            const datalist = document.getElementById('masterNamesDatalist');
+            if (!datalist) return;
+            datalist.innerHTML = '';
+            window.masterNamesList.forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                datalist.appendChild(option);
+            });
+        };
+
+        function parseCleanAmount(val) {
+            if (val === null || val === undefined) return '';
+            return String(val).replace(/[^0-9.-]/g, '');
+        }
+
+        function formatCurrencyDisplay(val) {
+            const num = parseFloat(val);
+            if (isNaN(num)) return '';
+            return num.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        window.renderTable = function() {
+            const tbody = document.getElementById('tableBody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            if (window.scheduleItems.length === 0) {
+                tbody.innerHTML = `
+                    <tr class="no-print">
+                        <td colspan="4" class="py-8 text-center text-slate-400 font-sinhala">
+                            කිසිදු දත්තයක් නොමැත. "පේළියක්" බොත්තම ඔබන්න.
+                        </td>
+                    </tr>
+                `;
+            }
+
+            window.scheduleItems.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50/70 transition-colors';
+                const formattedVal = formatCurrencyDisplay(item.amount);
+
+                tr.innerHTML = `
+                    <td class="py-2.5 px-4 text-center font-bold text-slate-600 bg-slate-50/50">${index + 1}</td>
+                    <td class="py-2 px-4">
+                        <div class="flex items-center gap-1">
+                            <input 
+                                type="text" 
+                                id="nameInput_${index}"
+                                list="masterNamesDatalist"
+                                value="${escapeHtml(item.name)}" 
+                                placeholder="නම / විස්තරය තෝරන්න හෝ ඇතුළත් කරන්න..." 
+                                oninput="updateRowSilent(${index}, 'name', this.value)"
+                                onkeydown="handleNameKeydown(event, ${index})"
+                                class="w-full bg-transparent border border-transparent hover:border-slate-300 focus:border-cyan-600 focus:bg-white rounded px-2 py-1 text-sm text-slate-800 transition focus:outline-none"
+                            />
+                        </div>
+                    </td>
+                    <td class="py-2 px-4">
+                        <input 
+                            type="text" 
+                            id="amountInput_${index}"
+                            value="${formattedVal}" 
+                            placeholder="0.00" 
+                            onfocus="handleAmountFocus(${index})"
+                            onblur="handleAmountBlur(${index})"
+                            oninput="updateRowSilent(${index}, 'amount', this.value)"
+                            onkeydown="handleAmountKeydown(event, ${index})"
+                            class="w-full text-right bg-transparent border border-transparent hover:border-slate-300 focus:border-cyan-600 focus:bg-white rounded px-2 py-1 text-sm font-mono font-semibold text-slate-800 transition focus:outline-none"
+                        />
+                    </td>
+                    <td class="py-2 px-4 text-center no-print">
+                        <button 
+                            onclick="removeRow(${index})" 
+                            title="මකන්න" 
+                            class="w-8 h-8 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 flex items-center justify-center mx-auto transition cursor-pointer"
+                        >
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            window.calculateTotal();
+        };
+
+        window.updateRowSilent = function(index, field, value) {
+            if (!window.scheduleItems[index]) return;
+            if (field === 'amount') {
+                window.scheduleItems[index].amount = parseCleanAmount(value);
+            } else {
+                window.scheduleItems[index].name = value;
+            }
+            window.calculateTotal();
+        };
+
+        window.handleAmountFocus = function(index) {
+            const input = document.getElementById(`amountInput_${index}`);
+            if (input && window.scheduleItems[index]) {
+                const rawVal = window.scheduleItems[index].amount;
+                input.value = (rawVal !== undefined && rawVal !== null) ? rawVal : '';
+                input.select();
+            }
+        };
+
+        window.handleAmountBlur = function(index) {
+            const input = document.getElementById(`amountInput_${index}`);
+            if (input && window.scheduleItems[index]) {
+                const cleanVal = parseCleanAmount(input.value);
+                window.scheduleItems[index].amount = cleanVal;
+                input.value = formatCurrencyDisplay(cleanVal);
+                window.calculateTotal();
+            }
+        };
+
+        window.handleNameKeydown = function(event, index) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const amtInput = document.getElementById(`amountInput_${index}`);
+                if (amtInput) amtInput.focus();
+            }
+        };
+
+        window.handleAmountKeydown = function(event, index) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                window.handleAmountBlur(index);
+
+                if (index === window.scheduleItems.length - 1) {
+                    window.scheduleItems.push({ id: Date.now(), name: '', amount: '' });
+                    window.renderTable();
+                }
+
+                setTimeout(() => {
+                    const nextNameInput = document.getElementById(`nameInput_${index + 1}`);
+                    if (nextNameInput) {
+                        nextNameInput.focus();
+                    }
+                }, 50);
+            }
+        };
+
+        window.addNewRow = function() {
+            window.scheduleItems.push({ id: Date.now(), name: '', amount: '' });
+            window.renderTable();
+            setTimeout(() => {
+                const nextNameInput = document.getElementById(`nameInput_${window.scheduleItems.length - 1}`);
+                if (nextNameInput) nextNameInput.focus();
+            }, 50);
+        };
+
+        window.removeRow = function(index) {
+            window.scheduleItems.splice(index, 1);
+            if (window.scheduleItems.length === 0) {
+                window.scheduleItems.push({ id: Date.now(), name: '', amount: '' });
+            }
+            window.renderTable();
+            window.showToast('පේළිය ඉවත් කරන ලදී', 'info');
+        };
+
+        window.calculateTotal = function() {
+            let total = 0;
+            window.scheduleItems.forEach(item => {
+                const val = parseFloat(item.amount);
+                if (!isNaN(val)) total += val;
+            });
+
+            const formattedTotal = 'Rs. ' + total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const totalAmountEl = document.getElementById('totalAmount');
+            const grandTotalLabelEl = document.getElementById('grandTotalLabel');
+            const rowCountLabelEl = document.getElementById('rowCountLabel');
+
+            if (totalAmountEl) totalAmountEl.innerText = formattedTotal;
+            if (grandTotalLabelEl) grandTotalLabelEl.innerText = formattedTotal;
+            if (rowCountLabelEl) rowCountLabelEl.innerText = window.scheduleItems.length;
+        };
+
+        window.openMasterModal = function(tab = 'expenditure') {
+            const modal = document.getElementById('masterModal');
+            if (modal) modal.classList.remove('hidden');
+            window.switchTab(tab);
+            renderMasterListsUI();
+        };
+
+        window.closeMasterModal = function() {
+            const modal = document.getElementById('masterModal');
+            if (modal) modal.classList.add('hidden');
+        };
+
+        window.switchTab = function(tab) {
+            const expBtn = document.getElementById('tabExpBtn');
+            const nameBtn = document.getElementById('tabNameBtn');
+            const expContent = document.getElementById('tabExpContent');
+            const nameContent = document.getElementById('tabNamesContent');
+
+            if (tab === 'expenditure') {
+                if (expBtn) expBtn.className = "px-4 py-2 text-sm font-semibold border-b-2 border-indigo-600 text-indigo-600 font-sinhala cursor-pointer";
+                if (nameBtn) nameBtn.className = "px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 font-sinhala cursor-pointer";
+                if (expContent) expContent.classList.remove('hidden');
+                if (nameContent) nameContent.classList.add('hidden');
+            } else {
+                if (nameBtn) nameBtn.className = "px-4 py-2 text-sm font-semibold border-b-2 border-indigo-600 text-indigo-600 font-sinhala cursor-pointer";
+                if (expBtn) expBtn.className = "px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 font-sinhala cursor-pointer";
+                if (nameContent) nameContent.classList.remove('hidden');
+                if (expContent) expContent.classList.add('hidden');
+            }
+        };
+
+        function renderMasterListsUI() {
+            const expList = document.getElementById('expList');
+            if (expList) {
+                expList.innerHTML = '';
+                window.masterExpenditureHeads.forEach((exp, idx) => {
+                    const li = document.createElement('li');
+                    li.className = 'flex justify-between items-center p-3 text-sm text-slate-700 hover:bg-slate-50';
+                    li.innerHTML = `
+                        <span>${escapeHtml(exp)}</span>
+                        <button onclick="deleteMasterExp(${idx})" class="text-rose-500 hover:text-rose-700 px-2 py-1 text-xs cursor-pointer">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    `;
+                    expList.appendChild(li);
+                });
+            }
+
+            const namesList = document.getElementById('namesList');
+            if (namesList) {
+                namesList.innerHTML = '';
+                window.masterNamesList.forEach((name, idx) => {
+                    const li = document.createElement('li');
+                    li.className = 'flex justify-between items-center p-3 text-sm text-slate-700 hover:bg-slate-50';
+                    li.innerHTML = `
+                        <span>${escapeHtml(name)}</span>
+                        <button onclick="deleteMasterName(${idx})" class="text-rose-500 hover:text-rose-700 px-2 py-1 text-xs cursor-pointer">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    `;
+                    namesList.appendChild(li);
+                });
+            }
+        }
+
+        window.addMasterExp = function() {
+            const input = document.getElementById('newExpInput');
+            const val = input.value.trim();
+            if (val && !window.masterExpenditureHeads.includes(val)) {
+                window.masterExpenditureHeads.push(val);
+                input.value = '';
+                saveMasterData();
+                renderMasterListsUI();
+                window.renderExpenditureDropdown(val);
+                window.showToast('නව වැය ශීර්ෂය එකතු කරන ලදී', 'success');
+            }
+        };
+
+        window.deleteMasterExp = function(idx) {
+            window.masterExpenditureHeads.splice(idx, 1);
+            saveMasterData();
+            renderMasterListsUI();
+            window.renderExpenditureDropdown();
+        };
+
+        window.addMasterName = function() {
+            const input = document.getElementById('newNameInput');
+            const val = input.value.trim();
+            if (val && !window.masterNamesList.includes(val)) {
+                window.masterNamesList.push(val);
+                input.value = '';
+                saveMasterData();
+                renderMasterListsUI();
+                window.renderDatalist();
+                window.showToast('නව නම / විස්තරය එකතු කරන ලදී', 'success');
+            }
+        };
+
+        window.deleteMasterName = function(idx) {
+            window.masterNamesList.splice(idx, 1);
+            saveMasterData();
+            renderMasterListsUI();
+            window.renderDatalist();
+        };
+
+        function saveMasterData() {
+            localStorage.setItem('irrigation_master_exp', JSON.stringify(window.masterExpenditureHeads));
+            localStorage.setItem('irrigation_master_names', JSON.stringify(window.masterNamesList));
+        }
+
+        function loadMasterData() {
+            const savedExp = localStorage.getItem('irrigation_master_exp');
+            const savedNames = localStorage.getItem('irrigation_master_names');
+            if (savedExp) window.masterExpenditureHeads = JSON.parse(savedExp);
+            if (savedNames) window.masterNamesList = JSON.parse(savedNames);
+        }
+
+        window.saveToLocalStorage = function() {
+            saveMasterData();
+            const dataToSave = {
+                expenditureHead: document.getElementById('expenditureHeadSelect').value,
+                voucherNo: document.getElementById('voucherNo').value,
+                sheetDate: document.getElementById('sheetDate').value,
+                items: window.scheduleItems
+            };
+            localStorage.setItem('irrigation_schedule_sheet', JSON.stringify(dataToSave));
+            window.showToast('සියලුම දත්ත සාර්ථකව සුරකින ලදී!', 'success');
+        };
+
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem('irrigation_schedule_sheet');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    if (parsed.expenditureHead) window.renderExpenditureDropdown(parsed.expenditureHead);
+                    if (parsed.voucherNo) document.getElementById('voucherNo').value = parsed.voucherNo;
+                    if (parsed.sheetDate) document.getElementById('sheetDate').value = parsed.sheetDate;
+                    if (Array.isArray(parsed.items) && parsed.items.length > 0) window.scheduleItems = parsed.items;
+                } catch (e) {
+                    console.error('Error loading saved state:', e);
+                }
+            }
+        }
+
+        window.clearAllData = function() {
+            if (confirm('ඔබට සියලුම දත්ත මකා දැමීමට අවශ්‍යද?')) {
+                window.scheduleItems = [
+                    { id: 1, name: "", amount: "" },
+                    { id: 2, name: "", amount: "" },
+                    { id: 3, name: "", amount: "" }
+                ];
+                document.getElementById('expenditureHeadSelect').value = '';
+                document.getElementById('voucherNo').value = '';
+                localStorage.removeItem('irrigation_schedule_sheet');
+                window.renderTable();
+                window.showToast('සියලුම දත්ත මකා දමන ලදී', 'error');
+            }
+        };
+
+        window.exportToCSV = function() {
+            const expHead = document.getElementById('expenditureHeadSelect').value || 'N/A';
+            const vNo = document.getElementById('voucherNo').value || 'N/A';
+            const sDate = document.getElementById('sheetDate').value || 'N/A';
+
+            let csvContent = "\uFEFF"; 
+            csvContent += `Central Province Irrigation Department - Schedule Sheet\r\n`;
+            csvContent += `Expenditure Head: ${expHead}, Voucher No: ${vNo}, Date: ${sDate}\r\n\r\n`;
+            csvContent += `Index,Name / Particulars,Amount (LKR)\r\n`;
+
+            let total = 0;
+            window.scheduleItems.forEach((item, idx) => {
+                const name = `"${(item.name || '').replace(/"/g, '""')}"`;
+                const amt = parseFloat(item.amount) || 0;
+                total += amt;
+                csvContent += `${idx + 1},${name},${amt.toFixed(2)}\r\n`;
+            });
+
+            csvContent += `,,Total: ${total.toFixed(2)}\r\n`;
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", `Schedule_Sheet_${vNo || 'export'}_${sDate}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+
+            window.showToast('CSV ගොනුව බාගත කරන ලදී', 'success');
+        };
+
+        const INTERNAL_SYSTEM_SALT = new Uint8Array([73, 114, 114, 105, 103, 97, 116, 105, 111, 110, 67, 101, 110, 116, 114, 97]);
+        const INTERNAL_BASE_PHRASE = "CentralProv_IrrigationDept_VoucherSheet_2026_SecureVaultKey";
+
+        async function deriveInternalCryptoKey() {
+            const enc = new TextEncoder();
+            const keyMaterial = await window.crypto.subtle.importKey(
+                "raw",
+                enc.encode(INTERNAL_BASE_PHRASE),
+                { name: "PBKDF2" },
+                false,
+                ["deriveKey"]
+            );
+
+            return window.crypto.subtle.deriveKey(
+                {
+                    name: "PBKDF2",
+                    salt: INTERNAL_SYSTEM_SALT,
+                    iterations: 100000,
+                    hash: "SHA-256"
+                },
+                keyMaterial,
+                { name: "AES-GCM", length: 256 },
+                false,
+                ["encrypt", "decrypt"]
+            );
+        }
+
+        window.exportEncryptedBackup = async function() {
+            try {
+                const payload = {
+                    version: "1.0",
+                    created: new Date().toISOString(),
+                    preparedBy: window.currentUserName,
+                    masterExp: window.masterExpenditureHeads,
+                    masterNames: window.masterNamesList,
+                    activeSheet: {
+                        expenditureHead: document.getElementById('expenditureHeadSelect').value,
+                        voucherNo: document.getElementById('voucherNo').value,
+                        sheetDate: document.getElementById('sheetDate').value,
+                        items: window.scheduleItems
+                    }
+                };
+
+                const jsonStr = JSON.stringify(payload);
+                const enc = new TextEncoder();
+                const dataBytes = enc.encode(jsonStr);
+
+                const key = await deriveInternalCryptoKey();
+                const iv = window.crypto.getRandomValues(new Uint8Array(12));
+
+                const encryptedContent = await window.crypto.subtle.encrypt(
+                    { name: "AES-GCM", iv: iv },
+                    key,
+                    dataBytes
+                );
+
+                const combined = new Uint8Array(iv.length + encryptedContent.byteLength);
+                combined.set(iv, 0);
+                combined.set(new Uint8Array(encryptedContent), iv.length);
+
+                const blob = new Blob([combined], { type: "application/octet-stream" });
+                const datePart = new Date().toISOString().split('T')[0];
+                const vNo = document.getElementById('voucherNo').value.trim() || 'DATA';
+                const filename = `CP_Irrigation_Backup_${vNo}_${datePart}.enc`;
+
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+
+                window.showToast('Encrypted Backup සාර්ථකව බාගත කරන ලදී!', 'success');
+            } catch (err) {
+                console.error("Backup Error:", err);
+                window.showToast('Backup කිරීම අසාර්ථක විය!', 'error');
+            }
+        };
+
+        window.triggerRestoreInput = function() {
+            const input = document.getElementById('restoreFileInput');
+            if (input) input.click();
+        };
+
+        window.handleRestoreFile = async function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                if (arrayBuffer.byteLength < 13) {
+                    throw new Error("Invalid file length");
+                }
+
+                const fullBytes = new Uint8Array(arrayBuffer);
+                const iv = fullBytes.slice(0, 12);
+                const cipherBytes = fullBytes.slice(12);
+
+                const key = await deriveInternalCryptoKey();
+                const decryptedBuffer = await window.crypto.subtle.decrypt(
+                    { name: "AES-GCM", iv: iv },
+                    key,
+                    cipherBytes
+                );
+
+                const dec = new TextDecoder();
+                const jsonStr = dec.decode(decryptedBuffer);
+                const restored = JSON.parse(jsonStr);
+
+                if (restored.preparedBy) {
+                    window.currentUserName = restored.preparedBy;
+                    localStorage.setItem('irrigation_current_user', window.currentUserName);
+                    window.updateUserUI();
+                }
+
+                if (Array.isArray(restored.masterExp)) {
+                    window.masterExpenditureHeads = restored.masterExp;
+                    localStorage.setItem('irrigation_master_exp', JSON.stringify(window.masterExpenditureHeads));
+                }
+
+                if (Array.isArray(restored.masterNames)) {
+                    window.masterNamesList = restored.masterNames;
+                    localStorage.setItem('irrigation_master_names', JSON.stringify(window.masterNamesList));
+                }
+
+                if (restored.activeSheet) {
+                    if (restored.activeSheet.expenditureHead) {
+                        window.renderExpenditureDropdown(restored.activeSheet.expenditureHead);
+                    } else {
+                        window.renderExpenditureDropdown();
+                    }
+                    if (restored.activeSheet.voucherNo) {
+                        document.getElementById('voucherNo').value = restored.activeSheet.voucherNo;
+                    }
+                    if (restored.activeSheet.sheetDate) {
+                        document.getElementById('sheetDate').value = restored.activeSheet.sheetDate;
+                    }
+                    if (Array.isArray(restored.activeSheet.items) && restored.activeSheet.items.length > 0) {
+                        window.scheduleItems = restored.activeSheet.items;
+                    }
+                }
+
+                window.renderDatalist();
+                window.renderTable();
+                saveMasterData();
+                localStorage.setItem('irrigation_schedule_sheet', JSON.stringify({
+                    expenditureHead: document.getElementById('expenditureHeadSelect').value,
+                    voucherNo: document.getElementById('voucherNo').value,
+                    sheetDate: document.getElementById('sheetDate').value,
+                    items: window.scheduleItems
+                }));
+
+                window.showToast('දත්ත සාර්ථකව Decrypt කර Restore කරන ලදී!', 'success');
+            } catch (err) {
+                console.error("Restore Error:", err);
+                window.showToast('අවලංගු හෝ හානි වූ Backup ගොනුවකි!', 'error');
+            } finally {
+                event.target.value = '';
+            }
+        };
+
+        window.triggerPrint = function() {
+            window.print();
+        };
+
+        window.showToast = function(message, type = 'success') {
+            const toast = document.getElementById('toastNotification');
+            const toastMsg = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            if (!toast || !toastMsg || !toastIcon) return;
+
+            toastMsg.innerText = message;
+
+            if (type === 'success') {
+                toastIcon.className = 'fa-solid fa-circle-check text-emerald-400';
+            } else if (type === 'error') {
+                toastIcon.className = 'fa-solid fa-triangle-exclamation text-rose-400';
+            } else {
+                toastIcon.className = 'fa-solid fa-circle-info text-cyan-400';
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        };
+
+        function escapeHtml(str) {
+            return String(str || '').replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>').replace(/"/g, '"');
+        }
     </script>
 </body>
 </html>
